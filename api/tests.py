@@ -3,6 +3,7 @@ from django.urls import reverse
 from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
 from rest_framework import status
+from rest_framework.authtoken.models import Token
 
 class AccountsTest(APITestCase):
     
@@ -18,12 +19,13 @@ class AccountsTest(APITestCase):
         Ensure we can create a new user and a valid token is created with it.
         """
         data = {
-            'username': 'foobar',
-            'email': 'foobar@example.com',
-            'password': 'somepassword'
-        }
+                'username': 'foobar',
+                'email': 'foobar@example.com',
+                'password': 'somepassword'
+                }
 
         response = self.client.post(self.create_url , data, format='json')
+        user = User.objects.latest('id')        
 
         # We want to make sure we have two users in the database..
         self.assertEqual(User.objects.count(), 2)
@@ -33,6 +35,8 @@ class AccountsTest(APITestCase):
         self.assertEqual(response.data['username'], data['username'])
         self.assertEqual(response.data['email'], data['email'])
         self.assertFalse('password' in response.data)
+        token = Token.objects.get(user=user)
+        self.assertEqual(response.data['token'], token.key)
 
     def test_create_user_with_short_password(self):
         """

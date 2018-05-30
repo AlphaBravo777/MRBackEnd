@@ -7,5 +7,7 @@
 			"path": "C:\\Users\\MRProgrammeringPC\\Dropbox\\Programming\\Angular\\meatriteFrontEnd"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"vsicons.presets.angular": true
+	}
 }
