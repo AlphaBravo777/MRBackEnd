@@ -14,6 +14,8 @@ router.register(r'users', views.UserViewSet)
 urlpatterns = [
     path('api/users/register', views.UserCreate.as_view(), name='account-create'),
     path('api/users/login', views.UserLogin.as_view(), name='account-login'),
+    path('products/', include('mrDatabaseModels.urls')),
+    #url(r'^', include('api.urls')) # Add this line
     url(r'^', include(router.urls)),
     #url(r'users^$', views.UserCreate.as_view(), name='account-create'),
     #url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))

@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'api',
-    'myapp'
+    'mrDatabaseModels'
 ]
 
 MIDDLEWARE = [
