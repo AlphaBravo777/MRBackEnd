@@ -19,4 +19,6 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
+    # path('accounts/', include('django.contrib.auth.urls')),  This will add all kinds of site auth urls -
+    # see https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Authentication under "Project URLs"
 ]
