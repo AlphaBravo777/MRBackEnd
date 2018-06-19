@@ -83,6 +83,7 @@ JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
 }
 
+
 SITE_ID = 1
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

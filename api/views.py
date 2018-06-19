@@ -19,7 +19,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class UserCreate(APIView):
     """ 
     Creates the user. 
-    """
+    """ 
 
     def post(self, request, format='json'):
         serializer = UserSerializer(data=request.data)
@@ -49,3 +49,17 @@ class UserLogin(APIView):
                 return Response(json, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class GetGroups(APIView):
+
+    def get(self, request, format='json'):
+        usernames = [user.password for user in User.objects.all()]
+        group = [group.name for group in Group.objects.all()]
+        groups = request.user.groups.all()
+        current_user = request.user
+        print (current_user.id)
+        if request.user.is_authenticated:
+            ans = request.user.groups.values_list('name', flat=True)
+        else:
+            ans = 'False'
+        return Response(ans)

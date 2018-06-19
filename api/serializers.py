@@ -1,6 +1,14 @@
 from django.contrib.auth.models import User, Group
 from rest_framework.validators import UniqueValidator
 from rest_framework import serializers
+from rest_auth.serializers import UserDetailsSerializer
+
+# from rest_auth.serializers import UserDetailsSerializer
+# class UserSerializer(UserDetailsSerializer):
+# 
+# – USER_DETAILS_SERIALIZER - serializer class in rest_auth.
+# views.UserDetailsView, default value rest_auth.serializers.
+# UserDetailsSerializer
 
 # class UserSerializer(serializers.HyperlinkedModelSerializer):
 #     class Meta:
@@ -12,7 +20,7 @@ from rest_framework import serializers
 #        user = User.objects.create_user(**validate_data) # When you use "validate_data" is means that the
 #                                                         # password will be hashed and not raw string
 #        return user
-# 
+
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -35,4 +43,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'email', 'password')
 
 
-
+class TestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
