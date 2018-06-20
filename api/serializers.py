@@ -43,6 +43,20 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'email', 'password')
 
 
+class GroupSerializer(serializers.ModelSerializer):    
+    class Meta:
+        model = Group
+        fields = ('name',)
+
+# class UserSerializer(serializers.ModelSerializer):    
+#     groups = GroupSerializer(many=True)
+#     class Meta:
+#         model = User
+#         fields = ('url', 'username', 'email', 'is_staff', 'groups',)
+
 class TestSerializer(serializers.ModelSerializer):
+    groups = GroupSerializer(many=True, read_only=True)
+   
     class Meta:
         model = User
+        fields = ('id','groups',)

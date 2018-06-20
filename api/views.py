@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
-from api.serializers import UserSerializer
+from api.serializers import UserSerializer, TestSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -49,17 +49,17 @@ class UserLogin(APIView):
                 return Response(json, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
 
 class GetGroups(APIView):
 
     def get(self, request, format='json'):
-        usernames = [user.password for user in User.objects.all()]
-        group = [group.name for group in Group.objects.all()]
-        groups = request.user.groups.all()
-        current_user = request.user
-        print (current_user.id)
+        serializer = TestSerializer(request.user)
         if request.user.is_authenticated:
-            ans = request.user.groups.values_list('name', flat=True)
+            json = serializer.data
+            #ans = request.user.groups.values_list('id', flat=True)
+            ans = json
+            return Response(ans)
         else:
             ans = 'False'
-        return Response(ans)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
