@@ -1,12 +1,15 @@
 {
-	"folders": [
-		{
-			"path": "."
-		},
-		{
-			"path": "C:\\Users\\MRProgrammeringPC\\Dropbox\\Programming\\Angular\\meatriteFrontEnd"
-		}
-	],
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "C:\\Users\\MRProgrammeringPC\\Dropbox\\Programming\\Angular\\meatriteFrontEnd"
+        },
+        {
+            "path": "C:\\Users\\MRProgrammeringPC\\Dropbox\\Programming\\Angular\\meatrite\\src\\app"
+        }
+    ],
 	"settings": {
 		"vsicons.presets.angular": true
 	}

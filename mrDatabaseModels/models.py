@@ -1,7 +1,10 @@
 from django.db import models
 
 class Packaging(models.Model):
-    packagingType = models.CharField(max_length=255, blank=True, null=True)
+    packaging_type = models.CharField(max_length=255, blank=True, null=True)
+    
+    def __str__(self):
+        return self.packaging_type
 
     class Meta:
         managed = True
@@ -45,6 +48,7 @@ class Productlist(models.Model):
     class Meta:
         managed = True
         db_table = 'tbl_productlist'
+        # ordering = ['productid']  #Default ordering
 
 class TblDeliveryroutes(models.Model):
     routes = models.CharField(unique=True, max_length=255)
@@ -53,3 +57,26 @@ class TblDeliveryroutes(models.Model):
     class Meta:
         managed = True
         db_table = 'tbl_deliveryroutes'
+
+class StockTakingTimes(models.Model):
+    times = models.TimeField(unique=True, blank=True)
+
+    def __str__(self):
+        return str(self.times)
+
+    class Meta:
+        managed = True
+        db_table = 'tbl_stockTakingTimes'
+
+class ProcessedStockAmounts(models.Model):
+    prodName = models.ForeignKey(Productlist, on_delete=models.CASCADE, blank=False, unique=False)
+    amount = models.CharField(unique=True, max_length=255)
+    time = models.ForeignKey(StockTakingTimes, on_delete=models.CASCADE, blank=False, unique=False, default=1)
+
+    def __str__(self):
+        return str(self.prodName)
+
+    class Meta:
+        managed = True
+        db_table = 'tbl_processedStockAmounts'
+
