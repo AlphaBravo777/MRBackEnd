@@ -69,7 +69,7 @@ class StockTakingTimes(models.Model):
         db_table = 'tbl_stockTakingTimes'
 
 class ProcessedStockAmounts(models.Model):
-    prodName = models.ForeignKey(Productlist, on_delete=models.CASCADE, blank=False, unique=False)
+    prodName = models.ForeignKey(Productlist, on_delete=models.CASCADE, blank=False, unique=False, related_name='prod')
     amount = models.CharField(unique=True, max_length=255)
     time = models.ForeignKey(StockTakingTimes, on_delete=models.CASCADE, blank=False, unique=False, default=1)
 

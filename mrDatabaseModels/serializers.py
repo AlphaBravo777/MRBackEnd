@@ -35,3 +35,11 @@ class ProcessedStockSerializer(serializers.ModelSerializer):
         result = super(ProcessedStockSerializer, self).to_representation(instance)
         new_result = {result['name']: result['amount']}
         return new_result
+
+class TestSerializer(serializers.ModelSerializer):
+    name = serializers.SlugRelatedField(read_only=True, slug_field='prodName')
+    time = serializers.SlugRelatedField(read_only=True, slug_field='time')
+
+    class Meta:
+        model = ProcessedStockAmounts
+        fields = ('name','amount','time')
