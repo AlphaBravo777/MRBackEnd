@@ -4,12 +4,12 @@ from .serializers import ProductListSerializer, ProcessedStockSerializer, TestSe
 from .models import Productlist, ProcessedStockAmounts, StockTakingTimes
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
+from rest_framework import status
 
 class ProductListDetailsView(generics.ListCreateAPIView):
     """This class handles the http GET, PUT and DELETE requests."""
 
-    queryset = Productlist.objects.all()
+    queryset = Productlist.objects.all().order_by("brand", "unitweight")
     serializer_class = ProductListSerializer 
 
 class InputStockView(APIView):
@@ -38,6 +38,25 @@ class ProcessedStockTimeView(generics.ListCreateAPIView):
         time = self.kwargs['stock']
         value = ProcessedStockAmounts.objects.filter(time__times__icontains=time)
         return value
+
+
+class InsertMultiProcessedStock(APIView):
+
+    def post(self, request, format='json'):
+        serializer = TestSerializer(data = request.data, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else: 
+            return Response(serializer.errors)
+
+class DeleteProcessedStockTime(generics.DestroyAPIView):
+
+    def delete(self, request, *args, **kwargs):
+        time = self.kwargs['deleteTime']
+        values = ProcessedStockAmounts.objects.filter(time__times__icontains=time)
+        values.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT) 
 
     # This changes the way the data is given through
     # def list(self, request, *args, **kwargs):

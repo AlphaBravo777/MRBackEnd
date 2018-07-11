@@ -32,7 +32,7 @@ class Batchgroups(models.Model):
         db_table = 'tbl_batchgroups'
 
 class Productlist(models.Model):
-    productid = models.CharField(db_column='productID', unique=True, max_length=20)  # Field name made lowercase.
+    productid = models.CharField(unique=True, max_length=20)  # Field name made lowercase.
     proddescription = models.CharField(db_column='prodDescription', max_length=255, blank=True, null=True)  # Field name made lowercase.
     packaging = models.ForeignKey(Packaging, on_delete=models.CASCADE, blank=True, null=True)
     unitweight = models.FloatField(db_column='unitWeight', blank=True, null=True)  # Field name made lowercase.
@@ -69,8 +69,8 @@ class StockTakingTimes(models.Model):
         db_table = 'tbl_stockTakingTimes'
 
 class ProcessedStockAmounts(models.Model):
-    prodName = models.ForeignKey(Productlist, on_delete=models.CASCADE, blank=False, unique=False, related_name='prod')
-    amount = models.CharField(unique=True, max_length=255)
+    prodName = models.ForeignKey(Productlist, on_delete=models.CASCADE, blank=False, unique=False)
+    amount = models.CharField(unique=False, max_length=255)
     time = models.ForeignKey(StockTakingTimes, on_delete=models.CASCADE, blank=False, unique=False, default=1)
 
     def __str__(self):

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Productlist, ProcessedStockAmounts
+from .models import Productlist, ProcessedStockAmounts, StockTakingTimes
 
 
 # This serializer is made to give a list through of all the products that we have
@@ -36,10 +36,20 @@ class ProcessedStockSerializer(serializers.ModelSerializer):
         new_result = {result['name']: result['amount']}
         return new_result
 
+class ProductSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Productlist
+            fields = ('productid',)
+
 class TestSerializer(serializers.ModelSerializer):
-    name = serializers.SlugRelatedField(read_only=True, slug_field='prodName')
-    time = serializers.SlugRelatedField(read_only=True, slug_field='time')
+    
+    time = serializers.SlugRelatedField(read_only=False, slug_field='times', queryset=StockTakingTimes.objects.all())
+    # prodName = serializers.CharField()
+    # prodName = ProductSerializer(many=True, read_only=True)
+    prodName = serializers.SlugRelatedField(read_only=False, slug_field='productid', queryset=Productlist.objects.all())
+    # prodName = ProductSerializer(many = True)
+    # prodName = serializers.SlugRelatedField(read_only=True, slug_field='prodName')
 
     class Meta:
         model = ProcessedStockAmounts
-        fields = ('name','amount','time')
+        fields = ('prodName','amount','time')
