@@ -22,19 +22,13 @@ class ProductListSerializer(serializers.ModelSerializer):
 
 
 class ProcessedStockSerializer(serializers.ModelSerializer):
-    # prodName = serializers.SlugRelatedField(read_only=True, slug_field='productid', required=False)
     name = serializers.CharField(source='prodName')
-    # time = serializers.SlugRelatedField(read_only=True, slug_field='times')
+    container = serializers.SlugRelatedField(read_only=True, slug_field='containername')
 
     class Meta:
         model = ProcessedStockAmounts
-        fields = '__all__'
-        #fields = ('name', 'amount')
+        fields = ('name','amount','container')
 
-    def to_representation(self, instance):
-        result = super(ProcessedStockSerializer, self).to_representation(instance)
-        new_result = {result['name']: result['amount']}
-        return new_result
 
 # ----------------------------------------------------------------------------
 
