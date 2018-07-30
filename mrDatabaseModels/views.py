@@ -1,6 +1,11 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .serializers import ProductListSerializer, ProcessedStockSerializer, TestSerializer, ProcessedStockSerializer2, Productcontainers
+from .serializers import    ProductListSerializer,\
+                            ProcessedStockSerializer,\
+                            TestSerializer,\
+                            ProcessedStockSerializer2,\
+                            Productcontainers,\
+                            ProductContainersSerializer
 from .models import Productlist, ProcessedStockAmounts, StockTakingTimes
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -57,3 +62,8 @@ class DeleteProcessedStockTime(generics.DestroyAPIView):
         values = ProcessedStockAmounts.objects.filter(time__times__icontains=time)
         values.delete()
         return Response(status=status.HTTP_204_NO_CONTENT) 
+
+class GetProductContainers(generics.ListCreateAPIView):
+
+    queryset = Productcontainers.objects.all()
+    serializer_class = ProductContainersSerializer 

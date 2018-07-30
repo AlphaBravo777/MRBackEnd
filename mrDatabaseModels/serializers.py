@@ -69,3 +69,12 @@ class TestSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProcessedStockAmounts
         fields = ('prodName','amount','time')
+
+class ProductContainersSerializer(serializers.ModelSerializer):
+
+    productid = serializers.StringRelatedField()
+    container = serializers.StringRelatedField(source='containernameid')
+
+    class Meta:
+        model = Productcontainers
+        fields = ('productid', 'container')
