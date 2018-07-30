@@ -63,12 +63,13 @@ class TestSerializer(serializers.ModelSerializer):
     # prodName = serializers.CharField()
     # prodName = ProductSerializer(many=True, read_only=True)
     prodName = serializers.SlugRelatedField(read_only=False, slug_field='productid', queryset=Productlist.objects.all())
+    container = serializers.SlugRelatedField(read_only=False, slug_field='containername', queryset=Productcontainernames.objects.all())
     # prodName = ProductSerializer(many = True)
     # prodName = serializers.SlugRelatedField(read_only=True, slug_field='prodName')
 
     class Meta:
         model = ProcessedStockAmounts
-        fields = ('prodName','amount','time')
+        fields = ('prodName','amount','time', 'container')
 
 class ProductContainersSerializer(serializers.ModelSerializer):
 
