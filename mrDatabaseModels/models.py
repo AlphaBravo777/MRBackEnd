@@ -39,6 +39,7 @@ class Productlist(models.Model):
     packageweight = models.FloatField(db_column='packageWeight', blank=True, null=True)  # Field name made lowercase.
     productonhold = models.BooleanField(default=False)
     batchgroup = models.ForeignKey(Batchgroups, on_delete=models.CASCADE)
+    stocktakegroup = models.ForeignKey(Batchgroups, db_column='stocktakegroup', on_delete=models.CASCADE, related_name='stocktakegroup', default=1)
     batchranking = models.IntegerField(db_column='batchRanking', blank=True, null=True)  # Field name made lowercase.
     brand = models.ForeignKey(ProductBrands, on_delete=models.CASCADE, blank=True, null=True)
 
