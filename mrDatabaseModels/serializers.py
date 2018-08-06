@@ -62,12 +62,8 @@ class ProductSerializer(serializers.ModelSerializer):
 class TestSerializer(serializers.ModelSerializer):
     
     time = serializers.SlugRelatedField(read_only=False, slug_field='times', queryset=StockTakingTimes.objects.all())
-    # prodName = serializers.CharField()
-    # prodName = ProductSerializer(many=True, read_only=True)
     prodName = serializers.SlugRelatedField(read_only=False, slug_field='productid', queryset=Productlist.objects.all())
     container = serializers.SlugRelatedField(read_only=False, slug_field='containername', queryset=Productcontainernames.objects.all())
-    # prodName = ProductSerializer(many = True)
-    # prodName = serializers.SlugRelatedField(read_only=True, slug_field='prodName')
 
     class Meta:
         model = ProcessedStockAmounts
