@@ -27,7 +27,7 @@ SECRET_KEY = '(e+_v=o(zwoyk&a5176)d29v&n*gn2tyv%2q%9cs3c8^xq2z+6'
 DEBUG = True
 
 ALLOWED_HOSTS = ['192.168.45.2', 'localhost', '127.0.0.1','192.168.1.2']
-
+# ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -89,12 +89,12 @@ SITE_ID = 1
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 CORS_ORIGIN_ALLOW_ALL = True
-#CORS_ORIGIN_WHITELIST = (
+# CORS_ORIGIN_WHITELIST = (
 #    'google.com',
 #    'hostname.example.com',
 #    'localhost:8000',
 #    '127.0.0.1:9000'
-#)
+# )
 
 
 TEMPLATES = [

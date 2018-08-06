@@ -39,8 +39,8 @@ class ProcessedStockTimeView(generics.ListCreateAPIView):
 
     serializer_class = ProcessedStockSerializer
 
-    def get_queryset(self):
-        time = self.kwargs['stock']
+    def get_queryset(self, format='json'):
+        time = self.kwargs['stockT']
         value = ProcessedStockAmounts.objects.filter(time__times__icontains=time)
         return value
 
