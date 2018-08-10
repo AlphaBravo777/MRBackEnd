@@ -6,8 +6,8 @@ from .views import ProductListDetailsView, ProcessedStockTimeView, InsertMultiPr
 urlpatterns = {
     path('delete/<deleteTime>', DeleteProcessedStockTime.as_view()),
     path('containers/', GetProductContainers.as_view()),
-    path('<str:stockT>/', ProcessedStockTimeView.as_view(), name="stockstime"),
     path('input/', InsertMultiProcessedStock.as_view()),
+    path('<str:stockT>/', ProcessedStockTimeView.as_view(), name="stockstime"),
     path('', ProductListDetailsView.as_view(), name="details"),
 }
 

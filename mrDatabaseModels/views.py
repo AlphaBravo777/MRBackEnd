@@ -52,8 +52,7 @@ class InsertMultiProcessedStock(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        return("error")
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # def post(self,request):
 #     serializer = TodoSerializer(data=request.data)
@@ -67,10 +66,12 @@ class DeleteProcessedStockTime(generics.DestroyAPIView):
     def delete(self, request, *args, **kwargs):
         time = self.kwargs['deleteTime']
         values = ProcessedStockAmounts.objects.filter(time__times__icontains=time)
+        # number = values.delete()
+        # return Response(data=time)
         values.delete()
         return Response(status=status.HTTP_204_NO_CONTENT) 
 
 class GetProductContainers(generics.ListCreateAPIView):
 
-    queryset = Productcontainers.objects.all()
+    queryset = Productcontainers.objects.order_by("productid", "containernameid")
     serializer_class = ProductContainersSerializer 
