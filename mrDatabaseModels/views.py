@@ -17,22 +17,10 @@ class ProductListDetailsView(generics.ListCreateAPIView):
     queryset = Productlist.objects.filter(productonhold=False).order_by("brand", "unitweight")
     serializer_class = ProductListSerializer 
 
-# class InputStockView(APIView):
+class GetProductContainers(generics.ListCreateAPIView):
 
-#     def post(self, request, format='json'):
-#         for key in request.data:
-#             value = request.data[key]
-#             obj = {'name': key, 'amount': value, 'time': '06:00'}
-#             # return Response(obj)
-#         serializer = TestSerializer(data = obj)
-#         if serializer.is_valid():
-#             # serializer.save()
-#             p = ProcessedStockAmounts(amount='33', prodName = Productlist.objects.get(productid = 'SV1'), time = StockTakingTimes.objects.get(times='06:00'))
-#             p.save()
-#             return Response(serializer.data)
-#         else: 
-#             return Response(serializer.errors)
-#         # return Response(resp)
+    queryset = Productcontainers.objects.order_by("productid", "containernameid")
+    serializer_class = ProductContainersSerializer 
 
 class ProcessedStockTimeView(generics.ListCreateAPIView):
     """This class handles the http GET, PUT and DELETE requests."""
@@ -48,30 +36,36 @@ class ProcessedStockTimeView(generics.ListCreateAPIView):
 class InsertMultiProcessedStock(APIView):
 
     def post(self, request, format='json'):
+
         serializer = TestSerializer(data = request.data, many=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# def post(self,request):
-#     serializer = TodoSerializer(data=request.data)
-#     if serializer.is_valid():
-#         serializer.save()
-#         return Response(serializer.data, status=status.HTTP_201_CREATED)
-#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 class DeleteProcessedStockTime(generics.DestroyAPIView):
 
     def delete(self, request, *args, **kwargs):
         time = self.kwargs['deleteTime']
         values = ProcessedStockAmounts.objects.filter(time__times__icontains=time)
-        # number = values.delete()
-        # return Response(data=time)
         values.delete()
         return Response(status=status.HTTP_204_NO_CONTENT) 
 
-class GetProductContainers(generics.ListCreateAPIView):
 
-    queryset = Productcontainers.objects.order_by("productid", "containernameid")
-    serializer_class = ProductContainersSerializer 
+
+    # class InputStockView(APIView):
+
+#     def post(self, request, format='json'):
+#         for key in request.data:
+#             value = request.data[key]
+#             obj = {'name': key, 'amount': value, 'time': '06:00'}
+#             # return Response(obj)
+#         serializer = TestSerializer(data = obj)
+#         if serializer.is_valid():
+#             # serializer.save()
+#             p = ProcessedStockAmounts(amount='33', prodName = Productlist.objects.get(productid = 'SV1'), time = StockTakingTimes.objects.get(times='06:00'))
+#             p.save()
+#             return Response(serializer.data)
+#         else: 
+#             return Response(serializer.errors)
+#         # return Response(resp)
