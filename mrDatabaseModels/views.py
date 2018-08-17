@@ -51,7 +51,12 @@ class DeleteProcessedStockTime(generics.DestroyAPIView):
         values.delete()
         return Response(status=status.HTTP_204_NO_CONTENT) 
 
+class TestDelete(generics.DestroyAPIView):
 
+    def delete(self, request, *args, **kwargs):
+        values = ProcessedStockAmounts.objects.filter(time__times__icontains='00:11')
+        values.delete()
+        return Response('true', status=status.HTTP_204_NO_CONTENT) 
 
     # class InputStockView(APIView):
 
