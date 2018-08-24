@@ -49,7 +49,7 @@ class Productlist(models.Model):
     class Meta:
         managed = True
         db_table = 'tbl_productlist'
-        # ordering = ['productid']  #Default ordering
+        ordering = ['productid']  #Default ordering
 
 class TblDeliveryroutes(models.Model):
     routes = models.CharField(unique=True, max_length=255)
@@ -121,6 +121,7 @@ class Productcontainernames(models.Model):
 class Productcontainers(models.Model):
     containernameid = models.ForeignKey(Productcontainernames, on_delete=models.CASCADE) 
     productid = models.ForeignKey(Productlist, on_delete=models.CASCADE) 
+    deleteContainerAmount = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.productid) + ' ' + str(self.containernameid) 

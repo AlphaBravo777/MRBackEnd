@@ -11,6 +11,15 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
+import logging
+logger = logging.getLogger(__name__)
+
+def infoMessage(message):
+	logger.info('* * * * * * * * * = ' + message)
+
+def errorMessage(message):
+	logger.error(message)
+
 class ProductListDetailsView(generics.ListCreateAPIView):
     """This class handles the http GET, PUT and DELETE requests."""
 
@@ -57,6 +66,55 @@ class TestDelete(generics.DestroyAPIView):
         values = ProcessedStockAmounts.objects.filter(time__times__icontains='00:11')
         values.delete()
         return Response('true', status=status.HTTP_204_NO_CONTENT) 
+
+class DeleteSpecifiedContainers(generics.ListCreateAPIView):
+
+    serializer_class = ProductContainersSerializer
+    def get_queryset(self, format='json', *kwargs):
+        value = self.kwargs['containers']
+        if value == 'half':
+            returnValue = Productcontainers.objects.filter(deleteContainerAmount = 0)
+            print(returnValue)
+            return returnValue
+
+class UpdateContainerDelete(generics.UpdateAPIView):
+
+    queryset = Productcontainers.objects.all()
+    # lookup_field = 'pk'
+    serializer_class = ProductContainersSerializer
+
+    # def get_queryset(self):
+    #     id = self.request.data.get("delete")
+    #     return Productcontainers.objects.filter(id=id)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if request.data.get("delete") == 'true':
+            boolValue = True
+        else:
+            boolValue = False
+        print(boolValue, instance.deleteContainerAmount)
+        instance.deleteContainerAmount = boolValue
+        instance.save()
+
+        # serializer = ProductContainersSerializer(data = instance)
+        # serializer.is_valid(raise_exception=True)
+        # self.perform_update(serializer)
+
+        return Response(data=None)
+
+
+    # def update(self, request, *args, **kwargs):
+    #     instance = self.get_object()
+    #     instance.name = request.data.get("name")
+    #     instance.save()
+
+    #     serializer = self.get_serializer(instance)
+    #     serializer.is_valid(raise_exception=True)
+    #     self.perform_update(serializer)
+
+    #     return Response(serializer.data)
+
 
     # class InputStockView(APIView):
 

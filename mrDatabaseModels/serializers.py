@@ -76,4 +76,4 @@ class ProductContainersSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Productcontainers
-        fields = ('productid', 'container')
+        fields = ('id', 'productid', 'container', 'deleteContainerAmount')
