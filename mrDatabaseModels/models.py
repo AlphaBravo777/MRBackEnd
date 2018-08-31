@@ -60,10 +60,10 @@ class TblDeliveryroutes(models.Model):
         db_table = 'tbl_deliveryroutes'
 
 class StockTakingTimes(models.Model):
-    times = models.TimeField(unique=True, blank=True)
+    times = models.CharField(unique=True, max_length=255)
 
     def __str__(self):
-        return str(self.times)
+        return self.times
 
     class Meta:
         managed = True

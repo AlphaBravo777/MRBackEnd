@@ -8,7 +8,8 @@ from .views import  ProductListDetailsView, \
                     GetProductContainers, \
                     TestDelete, \
                     DeleteSpecifiedContainers, \
-                    UpdateContainerDelete
+                    UpdateContainerDelete, \
+                    GetStockTimes
 
 urlpatterns = [
     path('delete/containers/<containers>', DeleteSpecifiedContainers.as_view()),
@@ -17,6 +18,7 @@ urlpatterns = [
     path('testDelete/', TestDelete.as_view()),
     path('containers/', GetProductContainers.as_view()),
     path('input/', InsertMultiProcessedStock.as_view()),
+    path('getStockTimes/', GetStockTimes.as_view(), name="getStockTimes"),
     path('<str:stockT>/', ProcessedStockTimeView.as_view(), name="stockstime"),
     path('', ProductListDetailsView.as_view(), name="details"),
 ]

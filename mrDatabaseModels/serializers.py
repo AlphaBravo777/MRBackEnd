@@ -49,10 +49,7 @@ class ProcessedStockSerializer2(serializers.ModelSerializer):
         model = Productcontainers
         fields = '__all__'
 
-
-
 # ----------------------------------------------------------------------------
-
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -77,3 +74,13 @@ class ProductContainersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Productcontainers
         fields = ('id', 'productid', 'container', 'deleteContainerAmount')
+
+# ----------------------------------------------------------------------------
+
+class GetStockTimesSerializer(serializers.ModelSerializer):
+
+    times = serializers.StringRelatedField()
+
+    class Meta:
+        model = StockTakingTimes
+        fields = ('times',)

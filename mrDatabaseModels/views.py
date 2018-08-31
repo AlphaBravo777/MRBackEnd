@@ -5,7 +5,8 @@ from .serializers import    ProductListSerializer,\
                             TestSerializer,\
                             ProcessedStockSerializer2,\
                             Productcontainers,\
-                            ProductContainersSerializer
+                            ProductContainersSerializer, \
+                            GetStockTimesSerializer
 from .models import Productlist, ProcessedStockAmounts, StockTakingTimes
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -15,9 +16,11 @@ import logging
 logger = logging.getLogger(__name__)
 
 def infoMessage(message):
+    # This does not really work in cmd promt
 	logger.info('* * * * * * * * * = ' + message)
 
 def errorMessage(message):
+    # This one does show up on cmd promt
 	logger.error(message)
 
 class ProductListDetailsView(generics.ListCreateAPIView):
@@ -102,6 +105,13 @@ class UpdateContainerDelete(generics.UpdateAPIView):
         # self.perform_update(serializer)
 
         return Response(data=None)
+
+class GetStockTimes(generics.ListCreateAPIView):
+    # infoMessage('I am running')
+    # errorMessage('---- I am running')
+    queryset = StockTakingTimes.objects.all()
+    serializer_class = GetStockTimesSerializer 
+
 
 
     # def update(self, request, *args, **kwargs):
