@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'api',
-    'mrDatabaseModels'
+    'graphene_django',
+    'mrDatabaseModels',
 ]
 
 MIDDLEWARE = [
