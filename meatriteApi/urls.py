@@ -5,6 +5,7 @@ from django.contrib.staticfiles.views import serve
 from django.views.generic import RedirectView, TemplateView
 from graphene_django.views import GraphQLView
 from meatriteApi.schema import schema
+from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     # url(r'^$', serve,kwargs={'path': 'index.html'}),
@@ -12,7 +13,7 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
-    path('graphql/', GraphQLView.as_view(graphiql=True)),
+    path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True))),
 
     # re_path('.*', TemplateView.as_view(template_name='index.html')),
     # url(r'^', TemplateView.as_view(template_name='index.html'), name='index'),

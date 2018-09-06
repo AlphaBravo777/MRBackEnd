@@ -22,6 +22,10 @@ class ProcessedStockAmountsType(DjangoObjectType):
 class StockTakingTimesType(DjangoObjectType):
     class Meta:
         model = StockTakingTimes 
+        interfaces = (Node, )                                   # If you add these lines, then the id will change from django-id to graphql-id
+        filter_fields = {                                       # If you add these lines, then the id will change from django-id to graphql-id
+            'times': ['exact', 'icontains', 'istartswith'],     # If you add these lines, then the id will change from django-id to graphql-id
+        }
 
 class ProductcontainersType(DjangoObjectType):
     class Meta:
@@ -46,6 +50,8 @@ class Query(graphene.ObjectType):
 
     product = graphene.Field(ProductlistType,id=graphene.Int())
     all_products = DjangoFilterConnectionField(ProductlistType)
+
+    all_times = DjangoFilterConnectionField(StockTakingTimesType)
 
     # search = graphene.Field(ProductlistType,id=graphene.Int())
 
