@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'api',
     'graphene_django',
+    'django_filters',
     'mrDatabaseModels',
 ]
 
@@ -83,6 +84,9 @@ JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
 }
 
+GRAPHENE = {
+        'SCHEMA': 'meatriteApi.schema.schema'
+} 
 
 SITE_ID = 1
 
