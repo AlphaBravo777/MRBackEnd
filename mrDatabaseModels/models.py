@@ -130,8 +130,14 @@ class Productcontainers(models.Model):
         managed = True
         db_table = 'tbl_productcontainers'
 
-# INSERT INTO `tbl_productcontainers` (`id`, `containernameid_id`, `productid_id`) VALUES 
-# (NULL, '2', '68'), 
-# (NULL, '1', '68'), 
-# (NULL, '5', '68');
+class HighRiskPackingList(models.Model):
+    productCode = models.ForeignKey(Productlist, db_column='productCode', on_delete=models.CASCADE) 
+    currentStock = models.IntegerField(db_column='currentStock', blank=False, null=False)
+    stockNeeded = models.IntegerField(db_column='stockNeeded', blank=False, null=False)
 
+    def __str__(self):
+        return self.productCode
+
+    class Meta:
+        managed = True
+        db_table = 'tbl_highRiskPackingList'

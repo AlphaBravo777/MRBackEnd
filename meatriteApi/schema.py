@@ -1,3 +1,5 @@
+# This may be where you import all the different models to combine them into one
+
 import graphene
 
 import mrDatabaseModels.schema

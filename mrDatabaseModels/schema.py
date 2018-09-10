@@ -4,7 +4,13 @@ from graphene_django.types import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene import Node
 
-from .models import Productlist, ProcessedStockAmounts, StockTakingTimes, Productcontainers, Productcontainernames
+from .models import Productlist, \
+                    ProcessedStockAmounts, \
+                    StockTakingTimes, \
+                    Productcontainers, \
+                    Productcontainernames, \
+                    HighRiskPackingList, \
+                    Batchgroups
 
 class ProductlistType(DjangoObjectType):
     class Meta:
@@ -39,6 +45,20 @@ class SearchProductlist(graphene.Union):
     class Meta:
         types = (ProductlistType,)
 
+class HighRiskPackingListType(DjangoObjectType):
+    class Meta:
+        model = HighRiskPackingList 
+        interfaces = (Node, )
+        filter_fields = {
+            'currentStock': ['exact', 'icontains', 'istartswith'],
+        }
+
+class BatchgroupsType(DjangoObjectType):
+    class Meta:
+        model = Batchgroups
+
+
+
 class Query(graphene.ObjectType):
     
     all_productlists = graphene.List(ProductlistType)
@@ -47,6 +67,8 @@ class Query(graphene.ObjectType):
     all_productcontainerss = graphene.List(ProductcontainersType)
     all_productcontainernamess = graphene.List(ProductcontainernamesType)
     productlist2 = Node.Field(ProductlistType) # This only works with the graphql id, and not the django id
+    all_highRiskPackingList = graphene.List(HighRiskPackingListType)
+    all_batchgroups = graphene.List(BatchgroupsType)
 
     product = graphene.Field(ProductlistType,id=graphene.Int())
     all_products = DjangoFilterConnectionField(ProductlistType)
@@ -69,6 +91,12 @@ class Query(graphene.ObjectType):
 
     def resolve_all_productcontainernamess(self, context, **kwargs):
         return Productcontainernames.objects.all()
+
+    def resolve_all_highRiskPackingList(self, context, **kwargs):
+        return HighRiskPackingList.objects.all()
+
+    def resolve_all_batchgroups(self, context, **kwargs):
+        return Batchgroups.objects.all()
     
     def resolve_product(self, context, **kwargs):
         id = kwargs.get('id')
