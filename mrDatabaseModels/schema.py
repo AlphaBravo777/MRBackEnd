@@ -57,6 +57,7 @@ class BatchgroupsType(DjangoObjectType):
     class Meta:
         model = Batchgroups
 
+#--------------------------------------------------------------------------------------
 
 
 class Query(graphene.ObjectType):
@@ -74,6 +75,8 @@ class Query(graphene.ObjectType):
     all_products = DjangoFilterConnectionField(ProductlistType)
 
     all_times = DjangoFilterConnectionField(StockTakingTimesType)
+
+    filter_highRiskPackingList = DjangoFilterConnectionField(HighRiskPackingListType)
 
     # search = graphene.Field(ProductlistType,id=graphene.Int())
 

@@ -23,6 +23,7 @@ class ProductBrands(models.Model):
 class Batchgroups(models.Model):
     batchname = models.CharField(db_column='batchName', unique=True, max_length=255)  # Field name made lowercase.
     ranking = models.IntegerField(unique=True)
+    packingListRanking = models.IntegerField(unique=True, blank=True, null=True)
 
     def __str__(self):
         return self.batchname
@@ -42,6 +43,7 @@ class Productlist(models.Model):
     stocktakegroup = models.ForeignKey(Batchgroups, db_column='stocktakegroup', on_delete=models.CASCADE, related_name='stocktakegroup', default=1)
     batchranking = models.IntegerField(db_column='batchRanking', blank=True, null=True)  # Field name made lowercase.
     brand = models.ForeignKey(ProductBrands, on_delete=models.CASCADE, blank=True, null=True)
+    packlistgroup = models.ForeignKey(Batchgroups, db_column='packlistgroup', on_delete=models.CASCADE, related_name='packlistgroup', default=20)
 
     def __str__(self):
         return self.productid
@@ -74,6 +76,7 @@ class ProcessedStockAmounts(models.Model):
     container = models.ForeignKey('Productcontainernames', on_delete=models.CASCADE, blank=False, unique=False, default=1)
     amount = models.CharField(unique=False, max_length=255)
     time = models.ForeignKey(StockTakingTimes, on_delete=models.CASCADE, blank=False, unique=False, default=1)
+    dateCreated = models.DateTimeField(auto_now_add=True, editable=False, null=True, blank=True)
 
     def __str__(self):
         return str(self.prodName)
@@ -131,9 +134,11 @@ class Productcontainers(models.Model):
         db_table = 'tbl_productcontainers'
 
 class HighRiskPackingList(models.Model):
-    productCode = models.ForeignKey(Productlist, db_column='productCode', on_delete=models.CASCADE) 
+    productCode = models.OneToOneField(Productlist, db_column='productCode', on_delete=models.CASCADE) 
     currentStock = models.IntegerField(db_column='currentStock', blank=False, null=False)
     stockNeeded = models.IntegerField(db_column='stockNeeded', blank=False, null=False)
+    # created = models.DateTimeField(auto_now_add=True, editable=False, null=True, blank=True)
+    # last_modified = models.DateTimeField(auto_now=True, editable=False, null=True, blank=True)
 
     def __str__(self):
         return self.productCode
@@ -141,3 +146,4 @@ class HighRiskPackingList(models.Model):
     class Meta:
         managed = True
         db_table = 'tbl_highRiskPackingList'
+        ordering = ['productCode']  #Default ordering
