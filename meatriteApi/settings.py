@@ -25,8 +25,8 @@ SECRET_KEY = '(e+_v=o(zwoyk&a5176)d29v&n*gn2tyv%2q%9cs3c8^xq2z+6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.45.2', 'localhost', '127.0.0.1','192.168.1.2']
-# ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS = ['192.168.45.2', 'localhost', '127.0.0.1','192.168.1.2', '192.168.2.26', '192.168.2.24']
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -135,10 +135,12 @@ WSGI_APPLICATION = 'meatriteApi.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'meatriteDB',
+        'NAME': 'meatritedb',
+        # 'NAME': 'meatriteDB',
         'USER': 'root',
         'PASSWORD': 'password',
         'HOST': '127.0.0.1',
+        # 'HOST': '192.168.2.24',
         'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
@@ -183,17 +185,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+#This is where your app will go and look for the static files
+# PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_URL = '/static/'
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# STATICFILES_DIRS = [
-#     ('frontend', os.path.join(BASE_DIR, 'frontend/dist')),
-# ]
-
-# STATICFILES_DIRS = [
-#   os.path.join(BASE_DIR, 'frontend/static'),
-# ]
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 # LOGGING = {
 

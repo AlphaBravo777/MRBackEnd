@@ -69,13 +69,13 @@ class StockTakingTimes(models.Model):
 
     class Meta:
         managed = True
-        db_table = 'tbl_stockTakingTimes'
+        db_table = 'tbl_stocktakingtimes'
 
 class ProcessedStockAmounts(models.Model):
-    prodName = models.ForeignKey(Productlist, on_delete=models.CASCADE, blank=False, unique=False)
-    container = models.ForeignKey('Productcontainernames', on_delete=models.CASCADE, blank=False, unique=False, default=1)
+    prodName = models.ForeignKey(Productlist, db_column='prodName', on_delete=models.CASCADE, blank=False, unique=False)
+    container = models.ForeignKey('Productcontainernames', db_column='container', on_delete=models.CASCADE, blank=False, unique=False, default=1)
     amount = models.CharField(unique=False, max_length=255)
-    time = models.ForeignKey(StockTakingTimes, on_delete=models.CASCADE, blank=False, unique=False, default=1)
+    time = models.ForeignKey(StockTakingTimes, db_column='time', on_delete=models.CASCADE, blank=False, unique=False, default=1)
     dateCreated = models.DateTimeField(auto_now_add=True, editable=False, null=True, blank=True)
 
     def __str__(self):
@@ -83,7 +83,7 @@ class ProcessedStockAmounts(models.Model):
 
     class Meta:
         managed = True
-        db_table = 'tbl_processedStockAmounts'
+        db_table = 'tbl_processedstockamounts'
 
 
 class Productgroupnames(models.Model):
@@ -141,9 +141,9 @@ class HighRiskPackingList(models.Model):
     # last_modified = models.DateTimeField(auto_now=True, editable=False, null=True, blank=True)
 
     def __str__(self):
-        return self.productCode
+        return str(self.productCode)
 
     class Meta:
         managed = True
-        db_table = 'tbl_highRiskPackingList'
+        db_table = 'tbl_highriskpackingList'
         ordering = ['productCode']  #Default ordering

@@ -6,11 +6,13 @@ from .serializers import    ProductListSerializer,\
                             ProcessedStockSerializer2,\
                             Productcontainers,\
                             ProductContainersSerializer, \
-                            GetStockTimesSerializer
-from .models import Productlist, ProcessedStockAmounts, StockTakingTimes
+                            GetStockTimesSerializer, \
+                            ProcessedStockAmountsSerializer
+from .models import Productlist, ProcessedStockAmounts, StockTakingTimes, Productcontainernames, HighRiskPackingList
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.db.models import Q
 
 import logging
 logger = logging.getLogger(__name__)
@@ -112,6 +114,37 @@ class GetStockTimes(generics.ListCreateAPIView):
     queryset = StockTakingTimes.objects.all()
     serializer_class = GetStockTimesSerializer 
 
+class ProductUpdateAmount(generics.UpdateAPIView):
+    # queryset = ProcessedStockAmounts.objects.all()
+    # serializer_class = ProcessedStockAmountsSerializer
+
+    def post(self, request, format='json'):
+
+        def updateHighRiskPackingList(obj):
+            record = HighRiskPackingList.objects.get(productCode=obj['prodName'])
+            record.currentStock = record.currentStock + obj['amount']
+            record.save()
+            print('currentStock = ', record.currentStock, obj['amount'])
+            pass
+
+        prodName = request.data.get('prodName')
+        time = request.data.get('time')
+        amount = request.data.get('amount')
+        container = request.data.get('container')
+        prodField = Productlist.objects.get(productid=prodName)
+        timeField = StockTakingTimes.objects.get(times=time)
+        containerField = Productcontainernames.objects.get(containername=container)
+        instance = ProcessedStockAmounts.objects.filter(Q(time=timeField.id) & Q(prodName=prodField.id) & Q(container=containerField.id))
+        obj = {'amount': amount, 'prodName': prodField.id, 'time': timeField.id, 'container': containerField.id}
+        updateHighRiskPackingList(obj)
+        print(timeField.id, prodField.id, containerField.id)
+        print(obj)
+        instance.delete()
+        serializer = ProcessedStockAmountsSerializer(data = obj)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
     # def update(self, request, *args, **kwargs):

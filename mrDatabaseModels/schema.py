@@ -12,6 +12,8 @@ from .models import Productlist, \
                     HighRiskPackingList, \
                     Batchgroups
 
+# multiple filter fields? : https://stackoverflow.com/questions/43196733/filter-at-multiple-levels-with-graphql-and-graphene
+
 class ProductlistType(DjangoObjectType):
     class Meta:
         model = Productlist 
@@ -19,6 +21,7 @@ class ProductlistType(DjangoObjectType):
         filter_fields = {
             'productid': ['exact'],
             'proddescription': ['exact', 'icontains', 'istartswith'],
+            'productonhold': ['exact'],
         }
 
 class ProcessedStockAmountsType(DjangoObjectType):
@@ -67,9 +70,10 @@ class Query(graphene.ObjectType):
     all_stockTakingTimess = graphene.List(StockTakingTimesType)
     all_productcontainerss = graphene.List(ProductcontainersType)
     all_productcontainernamess = graphene.List(ProductcontainernamesType)
-    productlist2 = Node.Field(ProductlistType) # This only works with the graphql id, and not the django id
     all_highRiskPackingList = graphene.List(HighRiskPackingListType)
     all_batchgroups = graphene.List(BatchgroupsType)
+    
+    productlist2 = Node.Field(ProductlistType) # This only works with the graphql id, and not the django id
 
     product = graphene.Field(ProductlistType,id=graphene.Int())
     all_products = DjangoFilterConnectionField(ProductlistType)

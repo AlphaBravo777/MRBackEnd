@@ -9,12 +9,14 @@ from .views import  ProductListDetailsView, \
                     TestDelete, \
                     DeleteSpecifiedContainers, \
                     UpdateContainerDelete, \
-                    GetStockTimes
+                    GetStockTimes, \
+                    ProductUpdateAmount
 
 urlpatterns = [
     path('delete/containers/<containers>', DeleteSpecifiedContainers.as_view()),
     path('delete/containerUpdate/<pk>', UpdateContainerDelete.as_view()),
     path('delete/<deleteTime>', DeleteProcessedStockTime.as_view()),
+    path('product/updateSingleAmount/', ProductUpdateAmount.as_view()),
     path('testDelete/', TestDelete.as_view()),
     path('containers/', GetProductContainers.as_view()),
     path('input/', InsertMultiProcessedStock.as_view()),

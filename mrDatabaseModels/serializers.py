@@ -84,3 +84,11 @@ class GetStockTimesSerializer(serializers.ModelSerializer):
     class Meta:
         model = StockTakingTimes
         fields = ('times',)
+
+
+
+class ProcessedStockAmountsSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = ProcessedStockAmounts
+        fields = ('prodName','amount','time','container')
