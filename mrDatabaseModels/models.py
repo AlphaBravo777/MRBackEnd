@@ -1,4 +1,31 @@
 from django.db import models
+import datetime
+
+class StockTakingTimes(models.Model):
+    times = models.CharField(unique=True, max_length=255)
+
+    def __str__(self):
+        return self.times
+
+    class Meta:
+        managed = True
+        db_table = 'tbl_stocktakingtimes'
+
+class TimeStamp(models.Model):
+    year = models.IntegerField(db_column='year', blank=False, null=False, default=2018)
+    week = models.IntegerField(db_column='week', blank=False, null=False, default=1)
+    weekDay = models.IntegerField(db_column='weekDay', blank=False, null=False, default=1)
+    shift = models.CharField(db_column='shift', unique=False, max_length=1, default='A')
+    time = models.ForeignKey(StockTakingTimes, db_column='time', on_delete=models.CASCADE, blank=False, unique=False, default=1)
+    shortDate = models.DateField(db_column='shortDate', blank=False, unique=False, default=datetime.date.today)
+    dateCreated = models.DateTimeField(auto_now_add=True, db_column='dateCreated', editable=False, null=True, blank=True)
+    
+    def __str__(self):
+        return self.shortDate
+
+    class Meta: 
+        managed = True
+        db_table = 'tbl_timestamp'
 
 class Packaging(models.Model):
     packaging_type = models.CharField(max_length=255, blank=True, null=True)
@@ -61,20 +88,14 @@ class TblDeliveryroutes(models.Model):
         managed = True
         db_table = 'tbl_deliveryroutes'
 
-class StockTakingTimes(models.Model):
-    times = models.CharField(unique=True, max_length=255)
-
-    def __str__(self):
-        return self.times
-
-    class Meta:
-        managed = True
-        db_table = 'tbl_stocktakingtimes'
-
 class ProcessedStockAmounts(models.Model):
     prodName = models.ForeignKey(Productlist, db_column='prodName', on_delete=models.CASCADE, blank=False, unique=False)
     container = models.ForeignKey('Productcontainernames', db_column='container', on_delete=models.CASCADE, blank=False, unique=False, default=1)
     amount = models.CharField(unique=False, max_length=255)
+    year = models.IntegerField(db_column='year', blank=False, null=False, default=2018)
+    week = models.IntegerField(db_column='week', blank=False, null=False, default=1)
+    weekDay = models.IntegerField(db_column='weekDay', blank=False, null=False, default=1)
+    shift = models.CharField(db_column='shift', unique=False, max_length=1, default='A')
     time = models.ForeignKey(StockTakingTimes, db_column='time', on_delete=models.CASCADE, blank=False, unique=False, default=1)
     dateCreated = models.DateTimeField(auto_now_add=True, editable=False, null=True, blank=True)
 
