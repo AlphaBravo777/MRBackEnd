@@ -1,5 +1,6 @@
 from django.db import models
 import datetime
+from django.conf import settings
 
 class StockTakingTimes(models.Model):
     times = models.CharField(unique=True, max_length=255)
@@ -21,7 +22,8 @@ class TimeStamp(models.Model):
     dateCreated = models.DateTimeField(auto_now_add=True, db_column='dateCreated', editable=False, null=True, blank=True)
     
     def __str__(self):
-        return self.shortDate
+        # return str(self.year)
+        return '%s %s %s %s %s' % (self.year, self.week, self.weekDay, self.shift, self.time)
 
     class Meta: 
         managed = True
@@ -47,10 +49,35 @@ class ProductBrands(models.Model):
         managed = True
         db_table = 'tbl_productbrands'
 
+class ColorCodes(models.Model):
+    itemDescription = models.CharField(db_column='itemDescription', max_length=100)  # Field name made lowercase.
+    colorCode = models.CharField(db_column='colorCode', max_length=10)
+
+    def __str__(self):
+        return self.itemDescription
+
+    class Meta:
+        managed = True
+        db_table = 'tbl_colorcodes'
+
+class MeasuringUnits(models.Model):
+    unitAmount = models.DecimalField(db_column='unitAmount', decimal_places=3, max_digits=10, null=False, blank=False)  # Field name made lowercase.
+    measuringUnit = models.CharField(db_column='measuringUnit', max_length=100)
+    unitColor = models.ForeignKey(ColorCodes, db_column='unitColor', on_delete=models.CASCADE, blank=True, null=True)
+    unitDescription = models.CharField(db_column='unitDescription', max_length=100)
+
+    def __str__(self):
+        return str(self.unitAmount)
+
+    class Meta:
+        managed = True
+        db_table = 'tbl_measuringunits'
+
 class Batchgroups(models.Model):
-    batchname = models.CharField(db_column='batchName', unique=True, max_length=255)  # Field name made lowercase.
+    batchname = models.CharField(db_column='batchName', unique=True, max_length=100)  # Field name made lowercase.
     ranking = models.IntegerField(unique=True)
     packingListRanking = models.IntegerField(unique=True, blank=True, null=True)
+    batchColor = models.ForeignKey(ColorCodes, db_column='batchColor', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.batchname
@@ -60,17 +87,18 @@ class Batchgroups(models.Model):
         db_table = 'tbl_batchgroups'
 
 class Productlist(models.Model):
-    productid = models.CharField(unique=True, max_length=20)  # Field name made lowercase.
-    proddescription = models.CharField(db_column='prodDescription', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    packaging = models.ForeignKey(Packaging, on_delete=models.CASCADE, blank=True, null=True)
-    unitweight = models.FloatField(db_column='unitWeight', blank=True, null=True)  # Field name made lowercase.
-    packageweight = models.FloatField(db_column='packageWeight', blank=True, null=True)  # Field name made lowercase.
-    productonhold = models.BooleanField(default=False)
-    batchgroup = models.ForeignKey(Batchgroups, on_delete=models.CASCADE)
+    productid = models.CharField(unique=True, db_column='productid', max_length=20)  # Field name made lowercase.
+    proddescription = models.CharField(db_column='proddescription', max_length=255, blank=True, null=True)  # Field name made lowercase.
+    packaging = models.ForeignKey(Packaging, db_column='packaging', on_delete=models.CASCADE, blank=True, null=True)
+    unitweight = models.ForeignKey(MeasuringUnits, db_column='unitweight', null=True, blank=True, on_delete=models.CASCADE)
+    packageweight = models.FloatField(db_column='packageweight', blank=True, null=True)  # Field name made lowercase.
+    productonhold = models.BooleanField(db_column='productonhold', default=False)
+    batchgroup = models.ForeignKey(Batchgroups, db_column='batchgroup', on_delete=models.CASCADE)
     stocktakegroup = models.ForeignKey(Batchgroups, db_column='stocktakegroup', on_delete=models.CASCADE, related_name='stocktakegroup', default=1)
-    batchranking = models.IntegerField(db_column='batchRanking', blank=True, null=True)  # Field name made lowercase.
-    brand = models.ForeignKey(ProductBrands, on_delete=models.CASCADE, blank=True, null=True)
+    batchranking = models.IntegerField(db_column='batchranking', blank=True, null=True)  # Field name made lowercase.
+    brand = models.ForeignKey(ProductBrands, db_column='brand', on_delete=models.CASCADE, blank=True, null=True)
     packlistgroup = models.ForeignKey(Batchgroups, db_column='packlistgroup', on_delete=models.CASCADE, related_name='packlistgroup', default=20)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='user', on_delete=models.CASCADE, null=False, blank=False, default=23)
 
     def __str__(self):
         return self.productid
@@ -80,9 +108,9 @@ class Productlist(models.Model):
         db_table = 'tbl_productlist'
         ordering = ['productid']  #Default ordering
 
-class TblDeliveryroutes(models.Model):
+class Deliveryroutes(models.Model):
     routes = models.CharField(unique=True, max_length=255)
-    loadingday = models.IntegerField(db_column='loadingDay', blank=True, null=True)  # Field name made lowercase.
+    loadingday = models.IntegerField(db_column='loadingday', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = True
@@ -92,12 +120,11 @@ class ProcessedStockAmounts(models.Model):
     prodName = models.ForeignKey(Productlist, db_column='prodName', on_delete=models.CASCADE, blank=False, unique=False)
     container = models.ForeignKey('Productcontainernames', db_column='container', on_delete=models.CASCADE, blank=False, unique=False, default=1)
     amount = models.CharField(unique=False, max_length=255)
-    year = models.IntegerField(db_column='year', blank=False, null=False, default=2018)
-    week = models.IntegerField(db_column='week', blank=False, null=False, default=1)
-    weekDay = models.IntegerField(db_column='weekDay', blank=False, null=False, default=1)
-    shift = models.CharField(db_column='shift', unique=False, max_length=1, default='A')
     time = models.ForeignKey(StockTakingTimes, db_column='time', on_delete=models.CASCADE, blank=False, unique=False, default=1)
-    dateCreated = models.DateTimeField(auto_now_add=True, editable=False, null=True, blank=True)
+    timeStampID = models.ForeignKey(TimeStamp, db_column='timeStampID', on_delete=models.CASCADE, blank=False, unique=False, default=1)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='user', on_delete=models.CASCADE, null=False, blank=False, default=23)
+    dateCreated = models.DateTimeField(auto_now_add=True, db_column='dateCreated', editable=False, null=True, blank=True)
+    prodContainer= models.ForeignKey('Productcontainers', db_column='prodContainer', on_delete=models.CASCADE, blank=False, unique=False, default=1)
 
     def __str__(self):
         return str(self.prodName)
@@ -155,9 +182,10 @@ class Productcontainers(models.Model):
         db_table = 'tbl_productcontainers'
 
 class HighRiskPackingList(models.Model):
-    productCode = models.OneToOneField(Productlist, db_column='productCode', on_delete=models.CASCADE) 
+    productCode = models.OneToOneField(Productlist, db_column='productCode', on_delete=models.CASCADE, primary_key=True) 
     currentStock = models.IntegerField(db_column='currentStock', blank=False, null=False)
     stockNeeded = models.IntegerField(db_column='stockNeeded', blank=False, null=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, blank=False, default=23)
     # created = models.DateTimeField(auto_now_add=True, editable=False, null=True, blank=True)
     # last_modified = models.DateTimeField(auto_now=True, editable=False, null=True, blank=True)
 
