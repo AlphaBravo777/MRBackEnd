@@ -16,4 +16,7 @@ class Migration(migrations.Migration):
             name='prodContainer',
             field=models.ForeignKey(db_column='prodContainer', default=1, on_delete=django.db.models.deletion.CASCADE, to='mrDatabaseModels.Productcontainers'),
         ),
+        migrations.DeleteModel(
+            name='TblDeliveryroutes',
+        ),
     ]

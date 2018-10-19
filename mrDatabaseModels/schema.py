@@ -2,6 +2,7 @@ import graphene
 from graphene_django.types import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene import Node, ObjectType
+from graphene import relay
 from graphene import ID, String, Int, List
 from django.db.models import Q
 
@@ -16,7 +17,10 @@ from .models import Productlist, \
                     ProductBrands, \
                     Packaging, \
                     ColorCodes, \
-                    MeasuringUnits
+                    MeasuringUnits, \
+                    Factoryarea, \
+                    Factorysubarea, \
+                    Image
 
 
 # multiple filter fields? : https://stackoverflow.com/questions/43196733/filter-at-multiple-levels-with-graphql-and-graphene
@@ -25,11 +29,12 @@ from .models import Productlist, \
 class ProductlistType(DjangoObjectType):
     class Meta:
         model = Productlist 
-        interfaces = (Node, )
+        interfaces = (relay.Node, )
         filter_fields = {
             'productid': ['exact'],
             'proddescription': ['exact', 'icontains', 'istartswith'],
             'productonhold': ['exact'],
+            'packaging': ['exact'],
         }
 
 class ProcessedStockAmountsType(DjangoObjectType):
@@ -66,12 +71,17 @@ class StockTakingTimesType(DjangoObjectType):
         }
 
 class ProductcontainersType(DjangoObjectType):
+    # productid=graphene.String
     class Meta:
         model = Productcontainers 
         interfaces = (Node, )  
-        filter_fields = {                                       
+        filter_fields = {       
+            'productid': ['exact',],                                 
             'deleteContainerAmount': ['exact', 'icontains', 'istartswith'],     
         }
+    # def resolve_productid(self, context, **kwargs):
+    #     print(self.productid)
+    #     return self.productid
         
 
 class ProductcontainernamesType(DjangoObjectType):
@@ -133,6 +143,33 @@ class BatchgroupsType(DjangoObjectType):
             'ranking': ['exact', 'icontains', 'istartswith'],
         }
 
+class FactoryAreaType(DjangoObjectType):
+    class Meta:
+        model = Factoryarea
+        interfaces = (Node, )
+        filter_fields = {
+            'area': ['exact', 'icontains', 'istartswith'],
+            'areaRanking': ['exact', 'icontains', 'istartswith'],
+        }
+
+class FactorySubAreaType(DjangoObjectType):
+    class Meta:
+        model = Factorysubarea
+        interfaces = (Node, )
+        filter_fields = {
+            'area': ['exact',],
+            'subArea': ['exact', 'icontains', 'istartswith'],
+            'subAreaRanking': ['exact', 'icontains', 'istartswith'],
+        }
+
+class ImageType(DjangoObjectType):
+    class Meta:
+        model = Image
+        interfaces = (Node, )
+        filter_fields = {
+            'imageName': ['exact', 'icontains', 'istartswith'],
+        }
+
 #--------------------------------------------------------------------------------------
 
 
@@ -151,6 +188,7 @@ class Query(graphene.ObjectType):
     list_packaging = graphene.List(PackagingType)
     list_colorcodes = graphene.List(ColorCodesType)
     list_measuringunits = graphene.List(MeasuringUnitsType)
+    list_images = graphene.List(ImageType)
 
     node_productlist = DjangoFilterConnectionField(ProductlistType)
     node_processedstockamounts = DjangoFilterConnectionField(ProcessedStockAmountsType)
@@ -164,6 +202,7 @@ class Query(graphene.ObjectType):
     node_measuringunits = DjangoFilterConnectionField(MeasuringUnitsType)
     node_highriskpackinglist = DjangoFilterConnectionField(HighRiskPackingListType)
     node_batchgroups = DjangoFilterConnectionField(BatchgroupsType)
+    node_images = DjangoFilterConnectionField(ImageType)
 
     def resolve_list_productlists(self, context, **kwargs):
         return Productlist.objects.all()
@@ -200,6 +239,9 @@ class Query(graphene.ObjectType):
 
     def resolve_list_measuringunits(self, context, **kwargs):
         return MeasuringUnits.objects.all()
+
+    def resolve_list_images(self, context, **kwargs):
+        return Image.objects.all()
 
     # def resolve_product(self, context, **kwargs):
     #     id = kwargs.get('id')

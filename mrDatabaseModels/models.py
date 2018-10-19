@@ -35,12 +35,24 @@ class Packaging(models.Model):
     def __str__(self):
         return self.packaging_type
 
-    class Meta:
+    class Meta: 
         managed = True
         db_table = 'tbl_packaging'
 
+class Image(models.Model):
+    imageName = models.CharField(max_length=255, blank=True, null=True)
+    imageDescription = models.CharField(max_length=255, blank=True, null=True)
+    
+    def __str__(self):
+        return self.imageName
+
+    class Meta:
+        managed = True
+        db_table = 'tbl_image'
+
 class ProductBrands(models.Model):
     brand = models.CharField(max_length=255, blank=True, null=True)
+    brandSmallImage = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.brand
@@ -51,10 +63,10 @@ class ProductBrands(models.Model):
 
 class ColorCodes(models.Model):
     itemDescription = models.CharField(db_column='itemDescription', max_length=100)  # Field name made lowercase.
-    colorCode = models.CharField(db_column='colorCode', max_length=10)
+    colorCode = models.CharField(db_column='colorCode', max_length=201)
 
     def __str__(self):
-        return self.itemDescription
+        return self.itemDescription 
 
     class Meta:
         managed = True
@@ -65,6 +77,7 @@ class MeasuringUnits(models.Model):
     measuringUnit = models.CharField(db_column='measuringUnit', max_length=100)
     unitColor = models.ForeignKey(ColorCodes, db_column='unitColor', on_delete=models.CASCADE, blank=True, null=True)
     unitDescription = models.CharField(db_column='unitDescription', max_length=100)
+    unitImage = models.ForeignKey(Image, db_column='unitImage', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return str(self.unitAmount)
@@ -107,14 +120,6 @@ class Productlist(models.Model):
         managed = True
         db_table = 'tbl_productlist'
         ordering = ['productid']  #Default ordering
-
-class Deliveryroutes(models.Model):
-    routes = models.CharField(unique=True, max_length=255)
-    loadingday = models.IntegerField(db_column='loadingday', blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = True
-        db_table = 'tbl_deliveryroutes'
 
 class ProcessedStockAmounts(models.Model):
     prodName = models.ForeignKey(Productlist, db_column='prodName', on_delete=models.CASCADE, blank=False, unique=False)
@@ -168,11 +173,37 @@ class Productcontainernames(models.Model):
     class Meta:
         managed = True
         db_table = 'tbl_productcontainernames'
+
+class Factoryarea(models.Model):
+    area = models.CharField(db_column='area', max_length=255, blank=False, null=False, unique=True)
+    areaRanking = models.IntegerField(db_column='areaRanking',unique=True, blank=False, null=False)
+
+    def __str__(self):
+        return self.area
+
+    class Meta:
+        managed = True
+        db_table = 'tbl_factoryarea'
+
+class Factorysubarea(models.Model):
+    area = models.ForeignKey(Factoryarea, db_column='area', on_delete=models.CASCADE, blank=True, null=True)
+    subArea = models.CharField(db_column='subArea', max_length=255, blank=False, null=False, unique=True)
+    subAreaRanking = models.IntegerField(db_column='subAreaRanking',unique=True, blank=False, null=False)
+
+    def __str__(self):
+        return self.section
+
+    class Meta:
+        managed = True
+        db_table = 'tbl_factorysubarea'
     
 class Productcontainers(models.Model):
     containernameid = models.ForeignKey(Productcontainernames, on_delete=models.CASCADE) 
     productid = models.ForeignKey(Productlist, on_delete=models.CASCADE) 
     deleteContainerAmount = models.BooleanField(default=True)
+    factoryRanking = models.IntegerField(db_column='factoryranking',unique=True, blank=True, null=True)
+    factorySubArea = models.ForeignKey(Factorysubarea, db_column='factorySubArea', on_delete=models.CASCADE, blank=True, null=True)
+    image = models.ForeignKey(Image, db_column='image', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return str(self.productid) + ' ' + str(self.containernameid) 
