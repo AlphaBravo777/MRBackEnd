@@ -176,7 +176,7 @@ class Productcontainernames(models.Model):
 
 class Factoryarea(models.Model):
     area = models.CharField(db_column='area', max_length=255, blank=False, null=False, unique=True)
-    areaRanking = models.IntegerField(db_column='areaRanking',unique=True, blank=False, null=False)
+    areaRanking = models.IntegerField(db_column='areaRanking',unique=False, blank=False, null=False)
 
     def __str__(self):
         return self.area
@@ -188,7 +188,7 @@ class Factoryarea(models.Model):
 class Factorysubarea(models.Model):
     area = models.ForeignKey(Factoryarea, db_column='area', on_delete=models.CASCADE, blank=True, null=True)
     subArea = models.CharField(db_column='subArea', max_length=255, blank=False, null=False, unique=True)
-    subAreaRanking = models.IntegerField(db_column='subAreaRanking',unique=True, blank=False, null=False)
+    subAreaRanking = models.IntegerField(db_column='subAreaRanking',unique=False, blank=False, null=False)
 
     def __str__(self):
         return self.section
@@ -204,6 +204,8 @@ class Productcontainers(models.Model):
     factoryRanking = models.IntegerField(db_column='factoryranking',unique=True, blank=True, null=True)
     factorySubArea = models.ForeignKey(Factorysubarea, db_column='factorySubArea', on_delete=models.CASCADE, blank=True, null=True)
     image = models.ForeignKey(Image, db_column='image', on_delete=models.CASCADE, blank=True, null=True)
+    filterCatagory = models.ForeignKey(Factoryarea, db_column='filterCatagory', on_delete=models.CASCADE, blank=True, null=True)
+    factoryCatagory = models.ForeignKey(Factoryarea, related_name='Factoryarea_factoryCatagory', db_column='factoryCatagory', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return str(self.productid) + ' ' + str(self.containernameid) 
