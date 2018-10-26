@@ -52,6 +52,7 @@ class TimeStampType(DjangoObjectType):
         model = TimeStamp 
         interfaces = (Node, )
         filter_fields = {
+            'id': ['exact'],
             'year': ['exact'],
             'week': ['exact'],
             'weekDay': ['exact'],
