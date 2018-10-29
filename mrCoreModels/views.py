@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .serializers import TimeStampIDSerializer
-from mrDatabaseModels.models import TimeStamp, StockTakingTimes
+from .serializers import TimeStampIDSerializer, ProcessedStockAmountsSerializer
+from mrDatabaseModels.models import TimeStamp, StockTakingTimes, ProcessedStockAmounts, Productcontainers, Productlist, Productcontainernames
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -30,6 +30,21 @@ class TimeStampID(generics.ListCreateAPIView):
                 serializer.save()
                 return
 
+        def createContianerIDs():
+            group = ProcessedStockAmounts.objects.all()
+            for stockItem in group:
+                prodName = str(stockItem.prodName)
+                container = str(stockItem.container)
+                stockItemID = int(stockItem.id)
+                prodNameID = Productlist.objects.get(productid=prodName)
+                containerID = Productcontainernames.objects.get(containername=container)
+                containerField = Productcontainers.objects.get(Q(productid=prodNameID.id) & Q(containernameid=containerID.id))
+                obje = ProcessedStockAmounts.objects.get(id=stockItemID)
+                print('here is the obj = ', obje)
+                obje.prodContainer = containerField
+                obje.save()
+ 
+        # createContianerIDs()
         year = self.request.query_params.get('year')
         week = self.request.query_params.get('week')
         weekDay = self.request.query_params.get('weekDay')
