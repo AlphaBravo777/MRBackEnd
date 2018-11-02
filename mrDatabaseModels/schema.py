@@ -72,7 +72,7 @@ class StockTakingTimesType(DjangoObjectType):
         }
 
 class ProductcontainersType(DjangoObjectType):
-    # productid=graphene.String
+    rowid=graphene.Int()
     class Meta:
         model = Productcontainers 
         interfaces = (Node, )  
@@ -80,9 +80,8 @@ class ProductcontainersType(DjangoObjectType):
             'productid': ['exact',],                                 
             'deleteContainerAmount': ['exact', 'icontains', 'istartswith'],     
         }
-    # def resolve_productid(self, context, **kwargs):
-    #     print(self.productid)
-    #     return self.productid
+    def resolve_rowid(self, context, **kwargs):
+        return self.id
         
 
 class ProductcontainernamesType(DjangoObjectType):
