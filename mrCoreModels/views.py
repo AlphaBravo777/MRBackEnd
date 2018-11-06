@@ -40,7 +40,7 @@ class TimeStampID(generics.ListCreateAPIView):
                 containerID = Productcontainernames.objects.get(containername=container)
                 containerField = Productcontainers.objects.get(Q(productid=prodNameID.id) & Q(containernameid=containerID.id))
                 obje = ProcessedStockAmounts.objects.get(id=stockItemID)
-                print('here is the obj = ', obje)
+                # print('here is the obj = ', obje)
                 obje.prodContainer = containerField
                 obje.save()
  
@@ -52,46 +52,17 @@ class TimeStampID(generics.ListCreateAPIView):
         monthDay = self.request.query_params.get('monthDay')
         stringDay = self.request.query_params.get('stringDay')
         shift = self.request.query_params.get('shift')
-        timeString = '06:00 (Paper)' # self.request.query_params.get('time')
+        timeString = self.request.query_params.get('time')
         time = StockTakingTimes.objects.get(times=timeString)
         shortDate = self.request.query_params.get('shortDate')
         longDate = self.request.query_params.get('longDate')
-        print(year, week, weekDay)
-        instance = TimeStamp.objects.filter(Q(year=year) & Q(week=week) & Q(weekDay=weekDay))
+        # print(year, week, weekDay)
+        instance = TimeStamp.objects.filter(Q(year=year) & Q(week=week) & Q(weekDay=weekDay) & Q(time=time.id))
         if not instance:
             obj = {'year': year, 'week': week, 'weekDay': weekDay, 'month': month, 'monthDay': monthDay, 'stringDay': stringDay, 'shift': shift, 'time': time.id, 'shortDate': shortDate, 'longDate': longDate,}
             createTimeStamp(obj)
-            instance = TimeStamp.objects.filter(Q(year=year) & Q(week=week) & Q(weekDay=weekDay))
+            instance = TimeStamp.objects.filter(Q(year=year) & Q(week=week) & Q(weekDay=weekDay) & Q(time=time.id))
             return instance
         else:
-            print('The id is ', instance)
+            # print('The id is ', instance)
             return instance
-
-
-        # def post(self, request, format='json'):
-
-        # def updateHighRiskPackingList(obj):
-        #     record = HighRiskPackingList.objects.get(productCode=obj['prodName'])
-        #     record.currentStock = record.currentStock + obj['amount']
-        #     record.save()
-        #     print('currentStock = ', record.currentStock, obj['amount'])
-        #     pass
-
-        # prodName = request.data.get('prodName')
-        # time = request.data.get('time')
-        # amount = request.data.get('amount')
-        # container = request.data.get('container')
-        # prodField = Productlist.objects.get(productid=prodName)
-        # timeField = StockTakingTimes.objects.get(times=time)
-        # containerField = Productcontainernames.objects.get(containername=container)
-        # instance = ProcessedStockAmounts.objects.filter(Q(time=timeField.id) & Q(prodName=prodField.id) & Q(container=containerField.id))
-        # obj = {'amount': amount, 'prodName': prodField.id, 'time': timeField.id, 'container': containerField.id}
-        # updateHighRiskPackingList(obj)
-        # print(timeField.id, prodField.id, containerField.id)
-        # print(obj)
-        # instance.delete()
-        # serializer = ProcessedStockAmountsSerializer(data = obj)
-        # if serializer.is_valid():
-        #     serializer.save()
-        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
-        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -63,13 +63,17 @@ class TimeStampType(DjangoObjectType):
     def resolve_rowid(self, context, **kwargs):
         return self.id
 
+
 class StockTakingTimesType(DjangoObjectType):
+    rowid=graphene.Int()
     class Meta:
         model = StockTakingTimes 
-        interfaces = (Node, )                                   # If you add these lines, then the id will change from django-id to graphql-id
+        interfaces = (Node, )   
         filter_fields = {                                       
             'times': ['exact', 'icontains', 'istartswith'],     
         }
+    def resolve_rowid(self, context, **kwargs):
+        return self.id
 
 class ProductcontainersType(DjangoObjectType):
     rowid=graphene.Int()
@@ -197,12 +201,20 @@ class Query(graphene.ObjectType):
     node_productcontainers = DjangoFilterConnectionField(ProductcontainersType)
     node_productcontainernames = DjangoFilterConnectionField(ProductcontainernamesType)
     node_productbrands = DjangoFilterConnectionField(ProductBrandsType)
-    node_packaging = DjangoFilterConnectionField(PackagingType)
+    node_packaging = DjangoFilterConnectionField(PackagingType) 
     node_colorcodes = DjangoFilterConnectionField(ColorCodesType)
     node_measuringunits = DjangoFilterConnectionField(MeasuringUnitsType)
     node_highriskpackinglist = DjangoFilterConnectionField(HighRiskPackingListType)
     node_batchgroups = DjangoFilterConnectionField(BatchgroupsType)
     node_images = DjangoFilterConnectionField(ImageType)
+
+    # single_timeStamp = graphene.Field(TimeStampType, id=graphene.Int())
+
+    # def resolve_single_timeStamp(self, args, context, info):
+    #     id = args.get('id')
+    #     if id is not None:
+    #         return TimeStamp.objects.get(pk=id)
+    #     return TimeStamp.objects.first()
 
     def resolve_list_productlists(self, context, **kwargs):
         return Productlist.objects.all()
