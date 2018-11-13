@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics
 from .serializers import CreateOrUpdateProcStockSerializer
 
-from mrDatabaseModels.models import ProcessedStockAmounts, TimeStamp, Productcontainers, Productlist, Productcontainernames
+from mrDatabaseModels.models import ProcessedStockAmounts, TimeStamp, Productcontainers, Productlist, Productcontainernames, Factoryarea
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -41,4 +41,21 @@ class CreateOrUpdateProcStock(generics.UpdateAPIView):
                 updateProductAmount()
             else:
                 createProductAmount()
+        return Response('success', status=status.HTTP_201_CREATED)
+
+class ChangeContainerRankings(generics.UpdateAPIView):
+
+    def post(self, request, format='json'):
+
+        factoryCatagoryName = request.data['factoryCatagory']
+        factoryCatagory = Factoryarea.objects.get(area=factoryCatagoryName)
+        data = request.data['newList']
+        x = 1
+        for item in data:
+            instance = Productcontainers.objects.get(id=item['databaseID'])
+            instance.factoryRanking = x
+            instance.factoryCatagory = factoryCatagory
+            # print('--------------- ', instance.factoryRanking, instance.factoryCatagory.area)
+            instance.save()
+            x = x + 1
         return Response('success', status=status.HTTP_201_CREATED)

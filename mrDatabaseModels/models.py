@@ -201,7 +201,7 @@ class Productcontainers(models.Model):
     containernameid = models.ForeignKey(Productcontainernames, db_column='containernameid', on_delete=models.CASCADE) 
     productid = models.ForeignKey(Productlist, db_column='productid', on_delete=models.CASCADE) 
     deleteContainerAmount = models.BooleanField(default=True)
-    factoryRanking = models.IntegerField(db_column='factoryranking',unique=True, blank=True, null=True)
+    factoryRanking = models.IntegerField(db_column='factoryranking', blank=True, null=True)
     factorySubArea = models.ForeignKey(Factorysubarea, db_column='factorySubArea', on_delete=models.CASCADE, blank=True, null=True)
     image = models.ForeignKey(Image, db_column='image', on_delete=models.CASCADE, blank=True, null=True)
     filterCatagory = models.ForeignKey(Factoryarea, db_column='filterCatagory', on_delete=models.CASCADE, blank=True, null=True)

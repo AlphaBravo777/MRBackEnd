@@ -193,6 +193,7 @@ class Query(graphene.ObjectType):
     list_colorcodes = graphene.List(ColorCodesType)
     list_measuringunits = graphene.List(MeasuringUnitsType)
     list_images = graphene.List(ImageType)
+    list_factoryAreas = graphene.List(FactoryAreaType)
 
     node_productlist = DjangoFilterConnectionField(ProductlistType)
     node_processedstockamounts = DjangoFilterConnectionField(ProcessedStockAmountsType)
@@ -254,6 +255,9 @@ class Query(graphene.ObjectType):
 
     def resolve_list_images(self, context, **kwargs):
         return Image.objects.all()
+
+    def resolve_list_factoryAreas(self, context, **kwargs):
+        return Factoryarea.objects.all()
 
     # def resolve_product(self, context, **kwargs):
     #     id = kwargs.get('id')
