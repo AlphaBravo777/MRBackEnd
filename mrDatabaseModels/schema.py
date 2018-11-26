@@ -20,7 +20,8 @@ from .models import Productlist, \
                     MeasuringUnits, \
                     Factoryarea, \
                     Factorysubarea, \
-                    Image
+                    Image, \
+                    DaysOfTheWeek
 
 
 # multiple filter fields? : https://stackoverflow.com/questions/43196733/filter-at-multiple-levels-with-graphql-and-graphene
@@ -174,6 +175,15 @@ class ImageType(DjangoObjectType):
             'imageName': ['exact', 'icontains', 'istartswith'],
         }
 
+class DaysOfTheWeekType(DjangoObjectType):
+    class Meta:
+        model = DaysOfTheWeek 
+        interfaces = (Node, )
+        filter_fields = {
+            'weekDayNames': ['exact'],
+            'weekDayNumber': ['exact'],
+        }
+
 #--------------------------------------------------------------------------------------
 
 
@@ -194,6 +204,7 @@ class Query(graphene.ObjectType):
     list_measuringunits = graphene.List(MeasuringUnitsType)
     list_images = graphene.List(ImageType)
     list_factoryAreas = graphene.List(FactoryAreaType)
+    list_daysOfTheWeek = graphene.List(DaysOfTheWeekType)
 
     node_productlist = DjangoFilterConnectionField(ProductlistType)
     node_processedstockamounts = DjangoFilterConnectionField(ProcessedStockAmountsType)
@@ -208,6 +219,7 @@ class Query(graphene.ObjectType):
     node_highriskpackinglist = DjangoFilterConnectionField(HighRiskPackingListType)
     node_batchgroups = DjangoFilterConnectionField(BatchgroupsType)
     node_images = DjangoFilterConnectionField(ImageType)
+    node_daysOfTheWeek = DjangoFilterConnectionField(DaysOfTheWeekType)
 
     # single_timeStamp = graphene.Field(TimeStampType, id=graphene.Int())
 
@@ -258,6 +270,9 @@ class Query(graphene.ObjectType):
 
     def resolve_list_factoryAreas(self, context, **kwargs):
         return Factoryarea.objects.all()
+
+    def resolve_list_daysOfTheWeek(self, context, **kwargs):
+        return DaysOfTheWeek.objects.all()
 
     # def resolve_product(self, context, **kwargs):
     #     id = kwargs.get('id')

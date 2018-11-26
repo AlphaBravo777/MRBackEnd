@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '(e+_v=o(zwoyk&a5176)d29v&n*gn2tyv%2q%9cs3c8^xq2z+6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # ALLOWED_HOSTS = ['192.168.45.2', 'localhost', '127.0.0.1','192.168.1.2', '192.168.2.26', '192.168.2.24']
 ALLOWED_HOSTS = ["*"]
@@ -49,6 +49,9 @@ INSTALLED_APPS = [
     'graphene_django',
     'django_filters',
     'mrDatabaseModels',
+    'mrAdminOffice',
+    'mrStock',
+    'mrCoreModels'
 ]
 
 MIDDLEWARE = [
@@ -139,8 +142,8 @@ DATABASES = {
         # 'NAME': 'meatriteDB',
         'USER': 'root',
         'PASSWORD': 'password',
-        'HOST': '127.0.0.1',
-        # 'HOST': '192.168.2.24',
+        # 'HOST': '127.0.0.1',
+        'HOST': '192.168.2.25',
         'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"

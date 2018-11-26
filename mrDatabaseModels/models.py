@@ -12,10 +12,33 @@ class StockTakingTimes(models.Model):
         managed = True
         db_table = 'tbl_stocktakingtimes'
 
+class DaysOfTheWeek(models.Model):
+    weekDayNames = models.CharField(db_column='weekDayNames', blank=False, unique=True, max_length=100)
+    weekDayNumber = models.IntegerField(db_column='weekDayNumber', blank=False, unique=True, null=False)
+    weekDayRanking = models.IntegerField(db_column='weekDayRanking', blank=False, unique=True, null=False)
+
+    def __str__(self):
+        return self.weekDayNames
+
+    class Meta:
+        managed = True
+        db_table = 'tbl_daysoftheweek'
+
+class DeliveryRoutes(models.Model):
+    routeName = models.CharField(db_column='routeName', blank=False, null=False, unique=True, max_length=255)
+    loadingDay = models.ForeignKey(DaysOfTheWeek, on_delete=models.CASCADE, db_column='loadingDay', blank=False, null=False, default=1)
+
+    def __str__(self):
+        return self.routeName
+
+    class Meta:
+        managed = True
+        db_table = 'tbl_deliveryroutes'
+
 class TimeStamp(models.Model):
     year = models.IntegerField(db_column='year', blank=False, null=False, default=2018)
     week = models.IntegerField(db_column='week', blank=False, null=False, default=1)
-    weekDay = models.IntegerField(db_column='weekDay', blank=False, null=False, default=1)
+    weekDay = models.ForeignKey('DaysOfTheWeek', on_delete=models.CASCADE, db_column='weekDay', blank=False, null=False, default=1)
     shift = models.CharField(db_column='shift', unique=False, max_length=1, default='A')
     time = models.ForeignKey(StockTakingTimes, db_column='time', on_delete=models.CASCADE, blank=False, unique=False, default=1)
     shortDate = models.DateField(db_column='shortDate', blank=False, unique=False, default=datetime.date.today)
@@ -112,6 +135,7 @@ class Productlist(models.Model):
     brand = models.ForeignKey(ProductBrands, db_column='brand', on_delete=models.CASCADE, blank=True, null=True)
     packlistgroup = models.ForeignKey(Batchgroups, db_column='packlistgroup', on_delete=models.CASCADE, related_name='packlistgroup', default=20)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='user', on_delete=models.CASCADE, null=False, blank=False, default=23)
+    brandImage = models.ForeignKey(Image, db_column='brandImage', on_delete=models.CASCADE, blank=True, null=True, default=19)
 
     def __str__(self):
         return self.productid
@@ -124,7 +148,7 @@ class Productlist(models.Model):
 class ProcessedStockAmounts(models.Model):
     prodName = models.ForeignKey(Productlist, db_column='prodName', on_delete=models.CASCADE, blank=False, unique=False)
     container = models.ForeignKey('Productcontainernames', db_column='container', on_delete=models.CASCADE, blank=False, unique=False, default=1)
-    amount = models.CharField(unique=False, max_length=255)
+    amount = models.CharField(unique=False, max_length=10)
     time = models.ForeignKey(StockTakingTimes, db_column='time', on_delete=models.CASCADE, blank=False, unique=False, default=1)
     timeStampID = models.ForeignKey(TimeStamp, db_column='timeStampID', on_delete=models.CASCADE, blank=False, unique=False, default=1)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='user', on_delete=models.CASCADE, null=False, blank=False, default=23)
@@ -144,6 +168,7 @@ class Productgroupnames(models.Model):
     group = models.CharField(max_length=255, blank=True, null=True)
     grouprating = models.IntegerField(db_column='groupRating', blank=True, null=True)  # Field name made lowercase.
     members = models.ManyToManyField(Productlist, through='Productgroups')
+
 
     def __str__(self):
         return self.groupname
@@ -229,3 +254,13 @@ class HighRiskPackingList(models.Model):
         managed = True
         db_table = 'tbl_highriskpackingList'
         ordering = ['productCode']  #Default ordering
+
+# mysql -u root -p
+
+# SELECT table_name AS "Table",
+# ROUND(((data_length + index_length) / 1024 / 1024), 2) AS "Size (MB)"
+# FROM information_schema.TABLES
+# WHERE table_schema = "meatritedb"
+# ORDER BY (data_length + index_length) DESC;
+
+# ProcessedStockAmounts size at 2018/11/21 = 0.39m
