@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from rest_framework import generics
 from .serializers import CreateOrUpdateProcStockSerializer
+from mrDatabaseModels.serializers import ProcessedStockAmountsSerializer
 
 from mrDatabaseModels.models import ProcessedStockAmounts, TimeStamp, Productcontainers, Productlist, Productcontainernames, Factoryarea
+from mrCoreModels.models import SettingsDB
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -28,9 +30,17 @@ class CreateOrUpdateProcStock(generics.UpdateAPIView):
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+        def setLastTimeStampUsed():
+            timeRecord = SettingsDB.objects.get(id=1)
+            timeRecord.value1 = timeInstance.id
+            timeRecord.value2 = dbTimeID
+            timeRecord.save()
+
+        dbTimeid = request.data.get('timeid')
         dbTimeID = request.data.get('timeID')
         data = request.data.get('data')
-        timeInstance = TimeStamp.objects.get(id=dbTimeID)
+        timeInstance = TimeStamp.objects.get(id=dbTimeid)
+        setLastTimeStampUsed()
         for item in data:
             prodContainerID = Productcontainers.objects.get(id=item['databaseID'])
             productid = Productlist.objects.get(productid=prodContainerID.productid)
@@ -41,7 +51,7 @@ class CreateOrUpdateProcStock(generics.UpdateAPIView):
                 updateProductAmount()
             else:
                 createProductAmount()
-        return Response('success', status=status.HTTP_201_CREATED)
+        return Response(True, status=status.HTTP_201_CREATED)
 
 class ChangeContainerRankings(generics.UpdateAPIView):
 
@@ -59,3 +69,13 @@ class ChangeContainerRankings(generics.UpdateAPIView):
             instance.save()
             x = x + 1
         return Response('success', status=status.HTTP_201_CREATED)
+
+class GetSelectiveDeleteData(generics.ListAPIView):
+    #probably not going to use this view
+    serializer_class = ProcessedStockAmountsSerializer
+
+    def get_queryset(self, format='json'):
+        timeRecord = SettingsDB.objects.get(id=1)
+        fetchPreviousData = ProcessedStockAmounts.objects.filter(Q(timeStampID=timeRecord.id) & Q(prodContainer__deleteContainerAmount=False))
+        return fetchPreviousData
+        

@@ -15,6 +15,7 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('core/', include('mrCoreModels.urls')),
     path('stock/', include('mrStock.urls')),
+    path('office/', include('mrAdminOffice.urls')),
     path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True))),
 
     # re_path('.*', TemplateView.as_view(template_name='index.html')),

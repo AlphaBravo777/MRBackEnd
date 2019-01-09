@@ -4,6 +4,7 @@ from django.conf import settings
 
 class StockTakingTimes(models.Model):
     times = models.CharField(unique=True, max_length=255)
+    selectiveDelete = models.BooleanField(db_column='selectiveDelete', default=False)
 
     def __str__(self):
         return self.times
@@ -168,7 +169,6 @@ class Productgroupnames(models.Model):
     group = models.CharField(max_length=255, blank=True, null=True)
     grouprating = models.IntegerField(db_column='groupRating', blank=True, null=True)  # Field name made lowercase.
     members = models.ManyToManyField(Productlist, through='Productgroups')
-
 
     def __str__(self):
         return self.groupname

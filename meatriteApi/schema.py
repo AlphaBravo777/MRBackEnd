@@ -2,9 +2,11 @@
 
 import graphene
 
-import mrDatabaseModels.schema
+import mrDatabaseModels.schema as Database
+import mrCoreModels.schema as Core
+import mrAdminOffice.schema as Office
 
-class Query(mrDatabaseModels.schema.Query, graphene.ObjectType):
+class Query(Database.Query, Core.Query, Office.Query, graphene.ObjectType):
     # This class extends all abstract apps level Queries and graphene.ObjectType
     pass
 

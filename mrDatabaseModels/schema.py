@@ -21,7 +21,9 @@ from .models import Productlist, \
                     Factoryarea, \
                     Factorysubarea, \
                     Image, \
-                    DaysOfTheWeek
+                    DaysOfTheWeek, \
+                    DeliveryRoutes, \
+                    Productgroupnames
 
 
 # multiple filter fields? : https://stackoverflow.com/questions/43196733/filter-at-multiple-levels-with-graphql-and-graphene
@@ -64,6 +66,9 @@ class TimeStampType(DjangoObjectType):
     def resolve_rowid(self, context, **kwargs):
         return self.id
 
+class TimeStampSQLType(DjangoObjectType):
+    class Meta:
+        model = TimeStamp 
 
 class StockTakingTimesType(DjangoObjectType):
     rowid=graphene.Int()
@@ -184,6 +189,33 @@ class DaysOfTheWeekType(DjangoObjectType):
             'weekDayNumber': ['exact'],
         }
 
+class DeliveryRoutesType(DjangoObjectType):
+    rowid = graphene.Int()
+    class Meta:
+        model = DeliveryRoutes 
+        interfaces = (Node, )
+        filter_fields = {
+            'routeName': ['exact', 'icontains', 'istartswith'],
+            'loadingDay': ['exact'],
+
+        }
+    def resolve_rowid(self, context, **kwargs):
+        return self.id
+
+class ProductGroupNameType(DjangoObjectType):
+    rowid = graphene.Int()
+    class Meta:
+        model = Productgroupnames 
+        interfaces = (Node, )
+        filter_fields = {
+            'groupname': ['exact', 'icontains', 'istartswith'],
+            'group': ['exact', 'icontains', 'istartswith'],
+            'grouprating': ['exact', 'icontains', 'istartswith'],
+            'members': ['exact'],
+        }
+    def resolve_rowid(self, context, **kwargs):
+        return self.id
+
 #--------------------------------------------------------------------------------------
 
 
@@ -220,14 +252,12 @@ class Query(graphene.ObjectType):
     node_batchgroups = DjangoFilterConnectionField(BatchgroupsType)
     node_images = DjangoFilterConnectionField(ImageType)
     node_daysOfTheWeek = DjangoFilterConnectionField(DaysOfTheWeekType)
+    node_deliveryRoutes = DjangoFilterConnectionField(DeliveryRoutesType)
+    node_productGroupNames = DjangoFilterConnectionField(ProductGroupNameType)
 
-    # single_timeStamp = graphene.Field(TimeStampType, id=graphene.Int())
+    filter_timeStamp = graphene.Field(TimeStampSQLType, id=graphene.Int())
 
-    # def resolve_single_timeStamp(self, args, context, info):
-    #     id = args.get('id')
-    #     if id is not None:
-    #         return TimeStamp.objects.get(pk=id)
-    #     return TimeStamp.objects.first()
+
 
     def resolve_list_productlists(self, context, **kwargs):
         return Productlist.objects.all()
@@ -274,11 +304,11 @@ class Query(graphene.ObjectType):
     def resolve_list_daysOfTheWeek(self, context, **kwargs):
         return DaysOfTheWeek.objects.all()
 
-    # def resolve_product(self, context, **kwargs):
-    #     id = kwargs.get('id')
-    #     if id is not None:
-    #         return Productlist.objects.get(pk=id)
-    #     return None
+    def resolve_filter_timeStamp(self, context, **kwargs):
+        id = kwargs.get('id')
+        if id is not None:
+            return TimeStamp.objects.get(pk=id)
+        return None
 
     # def resolve_time_stamp_filter(self, context, **kwargs):
     #     id = kwargs.get('id')
