@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
 from mrCoreModels.serializers import TimeStampIDSerializer, ProcessedStockAmountsSerializer
-from mrDatabaseModels.models import TimeStamp, StockTakingTimes, ProcessedStockAmounts, Productcontainers, Productlist, Productcontainernames, DaysOfTheWeek
+from mrDatabaseModels.models import TimeStamp, StockTakingTimes, ProcessedStockAmounts, Productcontainers, Productlist, Productcontainernames, DaysOfTheWeek, Shifts
 from .models import MessageLevels, DailyReport, ChecklistAreas
 from .serializers import DailyReportSerializer, ChecklistSerializer, NewClientAccountSerializer
 from mrDatabaseModels.serializers import TimeStampSerializer
@@ -39,15 +39,16 @@ def getOrCreateWholeDayTimeStampID(currentTimeStampid):
         # print('* * * * * * * this is before the error2', timestampInstance )
         weekdayInstance = DaysOfTheWeek.objects.get(weekDayNames=timestampInstance.weekDay)
         # print('* * * * * * * this is before the error3', weekdayInstance)
-        instance = TimeStamp.objects.filter(Q(year=timestampInstance.year) & Q(week=timestampInstance.week) & Q(weekDay=weekdayInstance.id) & Q(time=10))
+        instance = TimeStamp.objects.filter(Q(year=timestampInstance.year) & Q(week=timestampInstance.week) & Q(weekDay=weekdayInstance.id) & Q(time=10) & Q(shift=4))
         if not instance:
+            shiftInstance = Shifts.objects.get(id=4)
             wholeDayTime = StockTakingTimes.objects.get(id=10)
-            obj = {'year': timestampInstance.year, 'week': timestampInstance.week, 'weekDay': timestampInstance.weekDay.id, 'shift': 'A', 'time': wholeDayTime.id }
+            obj = {'year': timestampInstance.year, 'week': timestampInstance.week, 'weekDay': timestampInstance.weekDay.id, 'shift': shiftInstance.id, 'time': wholeDayTime.id }
             createTimeStamp(obj)
-            instance = TimeStamp.objects.get(Q(year=timestampInstance.year) & Q(week=timestampInstance.week) & Q(weekDay=timestampInstance.weekDay) & Q(time=10))
+            instance = TimeStamp.objects.get(Q(year=timestampInstance.year) & Q(week=timestampInstance.week) & Q(weekDay=timestampInstance.weekDay) & Q(time=10) & Q(shift=4))
             return instance
         else:
-            instance = TimeStamp.objects.get(Q(year=timestampInstance.year) & Q(week=timestampInstance.week) & Q(weekDay=timestampInstance.weekDay) & Q(time=10))
+            instance = TimeStamp.objects.get(Q(year=timestampInstance.year) & Q(week=timestampInstance.week) & Q(weekDay=timestampInstance.weekDay) & Q(time=10) & Q(shift=4))
             return instance
     return
 
@@ -89,12 +90,12 @@ class WholeDayTimeStamp(generics.ListCreateAPIView):
             weekDay = 1
         currentTimeStampid = self.request.query_params.get('id')
         wholeDayTimestampInstance = getOrCreateWholeDayTimeStampID(currentTimeStampid)
-        # print('* * * * * * * We are making it up till here', wholeDayTimestampInstance)
+        print('* * * * * * * We are making it up till here', wholeDayTimestampInstance)
         if wholeDayTimestampInstance != None:
             # wholeDayTimeInstance = StockTakingTimes.objects.get(id=10)
             # weekdayInstance = DaysOfTheWeek.objects.get(id=weekDay)
             print('* * * * * * *, Here is the timestamp data: ', year, week, weekDay)
-            wholedayTimeStampInstance = TimeStamp.objects.get(Q(year=year) & Q(week=week) & Q(weekDay=weekDay) & Q(time=10)& Q(shift='A'))
+            wholedayTimeStampInstance = TimeStamp.objects.get(Q(year=year) & Q(week=week) & Q(weekDay=weekDay) & Q(time=10)& Q(shift=4))
             serializer = TimeStampSerializer(wholedayTimeStampInstance)
             print('======', wholedayTimeStampInstance)
             return Response(serializer.data, status=status.HTTP_200_OK)

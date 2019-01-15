@@ -23,7 +23,8 @@ from .models import Productlist, \
                     Image, \
                     DaysOfTheWeek, \
                     DeliveryRoutes, \
-                    Productgroupnames
+                    Productgroupnames, \
+                    Shifts
 
 
 # multiple filter fields? : https://stackoverflow.com/questions/43196733/filter-at-multiple-levels-with-graphql-and-graphene
@@ -216,6 +217,19 @@ class ProductGroupNameType(DjangoObjectType):
     def resolve_rowid(self, context, **kwargs):
         return self.id
 
+class ShiftsType(DjangoObjectType):
+    rowid=graphene.Int()
+    class Meta:
+        model = Shifts 
+        interfaces = (Node, )
+        filter_fields = {
+            'id': ['exact'],
+            'shiftName': ['exact', 'icontains', 'istartswith'],
+            'shiftSuperVisor': ['exact'],
+        }
+    def resolve_rowid(self, context, **kwargs):
+        return self.id
+
 #--------------------------------------------------------------------------------------
 
 
@@ -254,6 +268,7 @@ class Query(graphene.ObjectType):
     node_daysOfTheWeek = DjangoFilterConnectionField(DaysOfTheWeekType)
     node_deliveryRoutes = DjangoFilterConnectionField(DeliveryRoutesType)
     node_productGroupNames = DjangoFilterConnectionField(ProductGroupNameType)
+    node_shifts = DjangoFilterConnectionField(ShiftsType)
 
     filter_timeStamp = graphene.Field(TimeStampSQLType, id=graphene.Int())
 
