@@ -51,7 +51,6 @@ class TimeStamp(models.Model):
     year = models.IntegerField(db_column='year', blank=False, null=False, default=2018)
     week = models.IntegerField(db_column='week', blank=False, null=False, default=1)
     weekDay = models.ForeignKey('DaysOfTheWeek', on_delete=models.CASCADE, db_column='weekDay', blank=False, null=False, default=1)
-    # shift = models.CharField(db_column='shift', unique=False, max_length=1, default='A')
     time = models.ForeignKey(StockTakingTimes, db_column='time', on_delete=models.CASCADE, blank=False, unique=False, default=1)
     shortDate = models.DateField(db_column='shortDate', blank=False, unique=False, default=datetime.date.today)
     dateCreated = models.DateTimeField(auto_now_add=True, db_column='dateCreated', editable=False, null=True, blank=True)

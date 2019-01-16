@@ -1,10 +1,10 @@
 from django.conf.urls import url, include
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import TimeStampID
+from .views import CreateTimeStampID
 
 urlpatterns = [
-    path('getTimeStampID/', TimeStampID.as_view()),
+    path('createTimeStampID/', CreateTimeStampID.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics
-from mrCoreModels.serializers import TimeStampIDSerializer, ProcessedStockAmountsSerializer
+from mrCoreModels.serializers import NewTimeStampIDSerializer
 from mrDatabaseModels.models import TimeStamp, StockTakingTimes, ProcessedStockAmounts, Productcontainers, Productlist, Productcontainernames, DaysOfTheWeek, Shifts
 from .models import MessageLevels, DailyReport, ChecklistAreas
 from .serializers import DailyReportSerializer, ChecklistSerializer, NewClientAccountSerializer

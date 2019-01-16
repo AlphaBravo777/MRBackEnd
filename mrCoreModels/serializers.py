@@ -1,9 +1,10 @@
 from rest_framework import serializers
 from mrDatabaseModels.models import StockTakingTimes, TimeStamp, ProcessedStockAmounts
 
-class TimeStampIDSerializer(serializers.ModelSerializer):
+class NewTimeStampIDSerializer(serializers.ModelSerializer):
 
-    # productid = serializers.StringRelatedField()
+    # time = serializers.SlugRelatedField(read_only=True, slug_field='times')
+    # shift = serializers.SlugRelatedField(read_only=True, slug_field='shiftName')
     # container = serializers.StringRelatedField(source='containernameid')
 
     class Meta:
