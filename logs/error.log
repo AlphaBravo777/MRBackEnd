@@ -17826,3 +17826,98 @@
 [Wed Jan 16 05:22:28.488068 2019] [wsgi:error] [pid 7866] [remote 192.168.2.31:56952] * * * * * serializer is valid
 [Wed Jan 16 06:30:53.287658 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:57563] ***  2019 3 Wednesday Day Day
 [Wed Jan 16 06:30:53.295230 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:57563] * * * * * serializer is valid
+[Wed Jan 16 07:45:51.632901 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375] Internal Server Error: /office/timeStamp/wholeDay/
+[Wed Jan 16 07:45:51.632963 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375] Traceback (most recent call last):
+[Wed Jan 16 07:45:51.632984 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+[Wed Jan 16 07:45:51.633002 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     response = get_response(request)
+[Wed Jan 16 07:45:51.633019 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/core/handlers/base.py", line 128, in _get_response
+[Wed Jan 16 07:45:51.633036 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     response = self.process_exception_by_middleware(e, request)
+[Wed Jan 16 07:45:51.633053 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+[Wed Jan 16 07:45:51.633071 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     response = wrapped_callback(request, *callback_args, **callback_kwargs)
+[Wed Jan 16 07:45:51.633088 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+[Wed Jan 16 07:45:51.633106 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     return view_func(*args, **kwargs)
+[Wed Jan 16 07:45:51.633123 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/views/generic/base.py", line 69, in view
+[Wed Jan 16 07:45:51.633140 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     return self.dispatch(request, *args, **kwargs)
+[Wed Jan 16 07:45:51.633157 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/rest_framework/views.py", line 483, in dispatch
+[Wed Jan 16 07:45:51.633175 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     response = self.handle_exception(exc)
+[Wed Jan 16 07:45:51.633191 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/rest_framework/views.py", line 443, in handle_exception
+[Wed Jan 16 07:45:51.633209 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     self.raise_uncaught_exception(exc)
+[Wed Jan 16 07:45:51.633226 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/rest_framework/views.py", line 480, in dispatch
+[Wed Jan 16 07:45:51.633243 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     response = handler(request, *args, **kwargs)
+[Wed Jan 16 07:45:51.633260 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/django/meatriteApi/mrAdminOffice/views.py", line 92, in get
+[Wed Jan 16 07:45:51.633278 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     wholeDayTimestampInstance = getOrCreateWholeDayTimeStampID(currentTimeStampid)
+[Wed Jan 16 07:45:51.633295 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/django/meatriteApi/mrAdminOffice/views.py", line 38, in getOrCreateWholeDayTimeStampID
+[Wed Jan 16 07:45:51.633336 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     timestampInstance = TimeStamp.objects.get(id=currentTimeStampid)
+[Wed Jan 16 07:45:51.633353 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/db/models/manager.py", line 82, in manager_method
+[Wed Jan 16 07:45:51.633369 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     return getattr(self.get_queryset(), name)(*args, **kwargs)
+[Wed Jan 16 07:45:51.633384 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/db/models/query.py", line 394, in get
+[Wed Jan 16 07:45:51.633400 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     clone = self.filter(*args, **kwargs)
+[Wed Jan 16 07:45:51.633416 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/db/models/query.py", line 836, in filter
+[Wed Jan 16 07:45:51.633432 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     return self._filter_or_exclude(False, *args, **kwargs)
+[Wed Jan 16 07:45:51.633448 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/db/models/query.py", line 854, in _filter_or_exclude
+[Wed Jan 16 07:45:51.633464 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     clone.query.add_q(Q(*args, **kwargs))
+[Wed Jan 16 07:45:51.633479 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/db/models/sql/query.py", line 1253, in add_q
+[Wed Jan 16 07:45:51.633495 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     clause, _ = self._add_q(q_object, self.used_aliases)
+[Wed Jan 16 07:45:51.633510 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/db/models/sql/query.py", line 1277, in _add_q
+[Wed Jan 16 07:45:51.633526 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     split_subq=split_subq,
+[Wed Jan 16 07:45:51.633541 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/db/models/sql/query.py", line 1215, in build_filter
+[Wed Jan 16 07:45:51.633558 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     condition = self.build_lookup(lookups, col, value)
+[Wed Jan 16 07:45:51.633573 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/db/models/sql/query.py", line 1085, in build_lookup
+[Wed Jan 16 07:45:51.633589 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     lookup = lookup_class(lhs, rhs)
+[Wed Jan 16 07:45:51.633604 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/db/models/lookups.py", line 18, in __init__
+[Wed Jan 16 07:45:51.633620 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     self.rhs = self.get_prep_lookup()
+[Wed Jan 16 07:45:51.633636 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/db/models/lookups.py", line 68, in get_prep_lookup
+[Wed Jan 16 07:45:51.633652 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     return self.lhs.output_field.get_prep_value(self.rhs)
+[Wed Jan 16 07:45:51.633667 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/db/models/fields/__init__.py", line 947, in get_prep_value
+[Wed Jan 16 07:45:51.633683 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375]     return int(value)
+[Wed Jan 16 07:45:51.633715 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375] ValueError: invalid literal for int() with base 10: 'undefined'
+[Wed Jan 16 07:45:51.633744 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57375] 
+[Wed Jan 16 07:45:51.666286 2019] [wsgi:error] [pid 11730] [remote 192.168.2.30:57376] Not Found: /core/getTimeStampID/
+[Wed Jan 16 08:31:41.335484 2019] [wsgi:error] [pid 11962] [client 192.168.2.52:52396] Timeout when reading response headers from daemon process 'meatriteApi': /home/administrator/Programming/django/meatriteApi/meatriteApi/wsgi.py, referer: http://192.168.2.25/main/admin-office/daily-report/report-read
+[Wed Jan 16 12:17:40.991433 2019] [wsgi:error] [pid 11730] [remote 192.168.2.32:54638] ***  2019 3 Wednesday Day Day
+[Wed Jan 16 12:17:41.008035 2019] [wsgi:error] [pid 11730] [remote 192.168.2.32:54638] * * * * * serializer is valid
+[Wed Jan 16 12:25:19.176967 2019] [wsgi:error] [pid 11730] [remote 192.168.2.32:54674] ***  2019 3 Wednesday Day Day
+[Wed Jan 16 12:25:19.194039 2019] [wsgi:error] [pid 11730] [remote 192.168.2.32:54674] * * * * * serializer is valid
+[Wed Jan 16 16:14:02.347332 2019] [wsgi:error] [pid 11730] [remote 192.168.2.32:57230] ***  2019 3 Wednesday Day Day
+[Wed Jan 16 16:14:02.350821 2019] [wsgi:error] [pid 11730] [remote 192.168.2.32:57230] * * * * * serializer is valid
+[Wed Jan 16 16:50:42.508913 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:61068] ***  2019 3 Wednesday Day Day
+[Wed Jan 16 16:50:42.517765 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:61068] * * * * * serializer is valid
+[Wed Jan 16 16:54:23.521481 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:61079] ***  2019 3 Wednesday Day Day
+[Wed Jan 16 16:54:23.533552 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:61079] * * * * * serializer is valid
+[Wed Jan 16 17:31:28.803397 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:61234] ***  2019 3 Wednesday Day Day
+[Wed Jan 16 17:31:28.818615 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:61234] * * * * * serializer is valid
+[Wed Jan 16 17:50:19.598889 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:61872] ***  2019 3 Wednesday Day Day
+[Wed Jan 16 17:50:19.618195 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:61872] * * * * * serializer is valid
+[Wed Jan 16 17:50:35.613186 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:61874] The id =  786
+[Wed Jan 16 17:51:31.257104 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:61877] ***  2019 3 Wednesday Day Day
+[Wed Jan 16 17:51:31.267353 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:61877] * * * * * serializer is valid
+[Wed Jan 16 17:53:06.260682 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:61884] ***  2019 3 Wednesday Day Day
+[Wed Jan 16 17:53:06.264555 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:61884] * * * * * serializer is valid
+[Wed Jan 16 21:02:46.722747 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:63344] ***  2019 3 Wednesday Day Day
+[Wed Jan 16 21:02:46.736114 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:63344] * * * * * serializer is valid
+[Thu Jan 17 02:56:48.722771 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:64471] ***  2019 3 Wednesday Day Day
+[Thu Jan 17 02:56:48.738859 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:64471] * * * * * serializer is valid
+[Thu Jan 17 03:53:42.693916 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:64648] ***  2019 3 Wednesday Day Day
+[Thu Jan 17 03:53:42.708460 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:64648] * * * * * serializer is valid
+[Thu Jan 17 05:34:31.059505 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:56264] ***  2019 3 Wednesday Day Day
+[Thu Jan 17 05:34:31.087386 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:56264] * * * * * serializer is valid
+[Thu Jan 17 05:48:00.780721 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:57384] ***  2019 3 Wednesday Day Day
+[Thu Jan 17 05:48:00.802837 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:57384] * * * * * serializer is valid
+[Thu Jan 17 06:01:02.008401 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:58456] ***  2019 3 Wednesday Day Day
+[Thu Jan 17 06:01:02.035420 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:58456] * * * * * serializer is valid
+[Thu Jan 17 06:03:44.778878 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:58677] ***  2019 3 Wednesday Day Day
+[Thu Jan 17 06:03:44.815129 2019] [wsgi:error] [pid 11730] [remote 192.168.2.31:58677] * * * * * serializer is valid
+[Thu Jan 17 06:36:42.307671 2019] [wsgi:error] [pid 21087] [remote 192.168.2.31:61738] ***  2019 3 Wednesday Day Day
+[Thu Jan 17 06:36:42.325207 2019] [wsgi:error] [pid 21087] [remote 192.168.2.31:61738] * * * * * serializer is valid
+[Thu Jan 17 08:03:49.124393 2019] [wsgi:error] [pid 21087] [remote 192.168.2.32:49511] ***  2019 3 Thursday Day Day
+[Thu Jan 17 08:03:49.131493 2019] [wsgi:error] [pid 21087] [remote 192.168.2.32:49511] * * * * * serializer is valid
+[Thu Jan 17 10:39:12.904722 2019] [wsgi:error] [pid 21087] [remote 192.168.2.31:65444] ***  2019 3 Thursday Day Day
+[Thu Jan 17 10:39:12.914552 2019] [wsgi:error] [pid 21087] [remote 192.168.2.31:65444] * * * * * serializer is valid
+[Thu Jan 17 11:03:05.602312 2019] [wsgi:error] [pid 21087] [remote 192.168.2.30:50765] Not Found: /robots.txt
+[Thu Jan 17 11:03:05.604287 2019] [wsgi:error] [pid 21087] [remote 192.168.2.30:50769] Not Found: /robots.txt
+[Thu Jan 17 14:47:42.910730 2019] [wsgi:error] [pid 21087] [remote 192.168.2.31:58489] The id =  800
+[Thu Jan 17 14:48:18.939814 2019] [wsgi:error] [pid 21087] [remote 192.168.2.31:58493] ***  2019 3 Thursday Day Day
+[Thu Jan 17 14:48:18.948422 2019] [wsgi:error] [pid 21087] [remote 192.168.2.31:58493] * * * * * serializer is valid
+[Thu Jan 17 14:48:34.953611 2019] [wsgi:error] [pid 21087] [remote 192.168.2.31:58495] The id =  811
+[Thu Jan 17 14:49:38.980478 2019] [wsgi:error] [pid 21087] [remote 192.168.2.31:58499] ***  2019 3 Thursday Day Day
+[Thu Jan 17 14:49:38.996466 2019] [wsgi:error] [pid 21087] [remote 192.168.2.31:58499] * * * * * serializer is valid

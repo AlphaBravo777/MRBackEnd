@@ -57,18 +57,20 @@ class InsertNewReport(generics.ListCreateAPIView):
     def post(self, request, format='json'):
 
         userInstance = self.request.user
-        timestampid = request.data.get('timestampID')
-        wholeDayTimestampInstance = getOrCreateWholeDayTimeStampID(timestampid)
-        print('*** ', wholeDayTimestampInstance)
+        timestampInstance = request.data.get('timestampID')
+        # wholeDayTimestampInstance = getOrCreateWholeDayTimeStampID(timestampid)
+        print('*** ', timestampInstance)
         message = request.data.get('message')
         messageLevel = request.data.get('messageLevel')
-        messageLevelInstance = MessageLevels.objects.get(levelName=messageLevel)
-        replyid = request.data.get('reply')
+        messageLevelName = messageLevel['levelName']
+        messageLevelInstance = MessageLevels.objects.get(levelName=messageLevelName)
+        print('*** ', messageLevelInstance.id, timestampInstance)
+        replyid = request.data.get('messageid')
         if replyid:
             replyInstance = DailyReport.objects.get(id=replyid)
-            obj = {'message': message, 'messageLevel': messageLevelInstance.id, 'user': userInstance.id, 'timeStampID': wholeDayTimestampInstance.id, 'reply': replyInstance.id}
+            obj = {'message': message, 'messageLevel': messageLevelInstance.id, 'user': userInstance.id, 'timeStampID': timestampInstance, 'reply': replyInstance.id}
         else: 
-            obj = {'message': message, 'messageLevel': messageLevelInstance.id, 'user': userInstance.id, 'timeStampID': wholeDayTimestampInstance.id}
+            obj = {'message': message, 'messageLevel': messageLevelInstance.id, 'user': userInstance.id, 'timeStampID': timestampInstance}
         serializer = DailyReportSerializer(data=obj)
         if serializer.is_valid():
             print('* * * * * serializer is valid')
@@ -142,3 +144,18 @@ class InsertNewClientAccount(generics.ListCreateAPIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UpdateReport(generics.UpdateAPIView):
+
+    queryset = DailyReport.objects.all()
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        newMessage = request.data.get('message')
+        messageLevelName = request.data.get('messageLevel')
+        newMessageLevel = MessageLevels.objects.get(levelName=messageLevelName['levelName'])
+        instance.message = newMessage
+        instance.messageLevel = newMessageLevel
+        instance.save()
+
+        return Response(data=True)
