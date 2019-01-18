@@ -17921,3 +17921,140 @@
 [Thu Jan 17 14:48:34.953611 2019] [wsgi:error] [pid 21087] [remote 192.168.2.31:58495] The id =  811
 [Thu Jan 17 14:49:38.980478 2019] [wsgi:error] [pid 21087] [remote 192.168.2.31:58499] ***  2019 3 Thursday Day Day
 [Thu Jan 17 14:49:38.996466 2019] [wsgi:error] [pid 21087] [remote 192.168.2.31:58499] * * * * * serializer is valid
+[Thu Jan 17 17:27:53.734331 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329] ***  299
+[Thu Jan 17 17:27:53.738939 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329] Internal Server Error: /office/report/enterNew/
+[Thu Jan 17 17:27:53.738980 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329] Traceback (most recent call last):
+[Thu Jan 17 17:27:53.738998 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+[Thu Jan 17 17:27:53.739038 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329]     response = get_response(request)
+[Thu Jan 17 17:27:53.739054 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/core/handlers/base.py", line 128, in _get_response
+[Thu Jan 17 17:27:53.739070 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329]     response = self.process_exception_by_middleware(e, request)
+[Thu Jan 17 17:27:53.739085 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+[Thu Jan 17 17:27:53.739101 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329]     response = wrapped_callback(request, *callback_args, **callback_kwargs)
+[Thu Jan 17 17:27:53.739116 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+[Thu Jan 17 17:27:53.739132 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329]     return view_func(*args, **kwargs)
+[Thu Jan 17 17:27:53.739147 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/views/generic/base.py", line 69, in view
+[Thu Jan 17 17:27:53.739162 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329]     return self.dispatch(request, *args, **kwargs)
+[Thu Jan 17 17:27:53.739177 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/rest_framework/views.py", line 483, in dispatch
+[Thu Jan 17 17:27:53.739192 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329]     response = self.handle_exception(exc)
+[Thu Jan 17 17:27:53.739207 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/rest_framework/views.py", line 443, in handle_exception
+[Thu Jan 17 17:27:53.739223 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329]     self.raise_uncaught_exception(exc)
+[Thu Jan 17 17:27:53.739237 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/rest_framework/views.py", line 480, in dispatch
+[Thu Jan 17 17:27:53.739253 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329]     response = handler(request, *args, **kwargs)
+[Thu Jan 17 17:27:53.739268 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329]   File "/home/administrator/Programming/django/meatriteApi/mrAdminOffice/views.py", line 65, in post
+[Thu Jan 17 17:27:53.739283 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329]     messageLevelName = messageLevel['levelName']
+[Thu Jan 17 17:27:53.739303 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329] TypeError: string indices must be integers
+[Thu Jan 17 17:27:53.739330 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59329] 
+[Thu Jan 17 17:28:23.663480 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333] ***  299
+[Thu Jan 17 17:28:23.664677 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333] Internal Server Error: /office/report/enterNew/
+[Thu Jan 17 17:28:23.664715 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333] Traceback (most recent call last):
+[Thu Jan 17 17:28:23.664733 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+[Thu Jan 17 17:28:23.664750 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333]     response = get_response(request)
+[Thu Jan 17 17:28:23.664765 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/core/handlers/base.py", line 128, in _get_response
+[Thu Jan 17 17:28:23.664804 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333]     response = self.process_exception_by_middleware(e, request)
+[Thu Jan 17 17:28:23.664821 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+[Thu Jan 17 17:28:23.664837 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333]     response = wrapped_callback(request, *callback_args, **callback_kwargs)
+[Thu Jan 17 17:28:23.664852 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+[Thu Jan 17 17:28:23.664868 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333]     return view_func(*args, **kwargs)
+[Thu Jan 17 17:28:23.664883 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/views/generic/base.py", line 69, in view
+[Thu Jan 17 17:28:23.664899 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333]     return self.dispatch(request, *args, **kwargs)
+[Thu Jan 17 17:28:23.664914 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/rest_framework/views.py", line 483, in dispatch
+[Thu Jan 17 17:28:23.664930 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333]     response = self.handle_exception(exc)
+[Thu Jan 17 17:28:23.664945 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/rest_framework/views.py", line 443, in handle_exception
+[Thu Jan 17 17:28:23.664960 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333]     self.raise_uncaught_exception(exc)
+[Thu Jan 17 17:28:23.664975 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/rest_framework/views.py", line 480, in dispatch
+[Thu Jan 17 17:28:23.664991 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333]     response = handler(request, *args, **kwargs)
+[Thu Jan 17 17:28:23.665006 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333]   File "/home/administrator/Programming/django/meatriteApi/mrAdminOffice/views.py", line 65, in post
+[Thu Jan 17 17:28:23.665021 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333]     messageLevelName = messageLevel['levelName']
+[Thu Jan 17 17:28:23.665041 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333] TypeError: string indices must be integers
+[Thu Jan 17 17:28:23.665067 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59333] 
+[Thu Jan 17 17:30:16.718714 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342] ***  299
+[Thu Jan 17 17:30:16.719846 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342] Internal Server Error: /office/report/enterNew/
+[Thu Jan 17 17:30:16.719883 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342] Traceback (most recent call last):
+[Thu Jan 17 17:30:16.719901 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+[Thu Jan 17 17:30:16.719919 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342]     response = get_response(request)
+[Thu Jan 17 17:30:16.719936 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/core/handlers/base.py", line 128, in _get_response
+[Thu Jan 17 17:30:16.719953 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342]     response = self.process_exception_by_middleware(e, request)
+[Thu Jan 17 17:30:16.719991 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+[Thu Jan 17 17:30:16.720008 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342]     response = wrapped_callback(request, *callback_args, **callback_kwargs)
+[Thu Jan 17 17:30:16.720024 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+[Thu Jan 17 17:30:16.720040 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342]     return view_func(*args, **kwargs)
+[Thu Jan 17 17:30:16.720055 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/views/generic/base.py", line 69, in view
+[Thu Jan 17 17:30:16.720071 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342]     return self.dispatch(request, *args, **kwargs)
+[Thu Jan 17 17:30:16.720087 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/rest_framework/views.py", line 483, in dispatch
+[Thu Jan 17 17:30:16.720102 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342]     response = self.handle_exception(exc)
+[Thu Jan 17 17:30:16.720118 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/rest_framework/views.py", line 443, in handle_exception
+[Thu Jan 17 17:30:16.720133 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342]     self.raise_uncaught_exception(exc)
+[Thu Jan 17 17:30:16.720148 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/rest_framework/views.py", line 480, in dispatch
+[Thu Jan 17 17:30:16.720164 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342]     response = handler(request, *args, **kwargs)
+[Thu Jan 17 17:30:16.720179 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342]   File "/home/administrator/Programming/django/meatriteApi/mrAdminOffice/views.py", line 65, in post
+[Thu Jan 17 17:30:16.720195 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342]     messageLevelName = messageLevel['levelName']
+[Thu Jan 17 17:30:16.720215 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342] TypeError: string indices must be integers
+[Thu Jan 17 17:30:16.720240 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59342] 
+[Thu Jan 17 18:13:44.252626 2019] [wsgi:error] [pid 25723] [remote 192.168.2.30:59295] ***  299
+[Thu Jan 17 18:13:44.255729 2019] [wsgi:error] [pid 25723] [remote 192.168.2.30:59295] ***  2 299
+[Thu Jan 17 18:13:44.267513 2019] [wsgi:error] [pid 25723] [remote 192.168.2.30:59295] * * * * * serializer is valid
+[Thu Jan 17 18:15:26.455494 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762] ***  299
+[Thu Jan 17 18:15:26.456519 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762] Internal Server Error: /office/report/enterNew/
+[Thu Jan 17 18:15:26.456556 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762] Traceback (most recent call last):
+[Thu Jan 17 18:15:26.456574 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/core/handlers/exception.py", line 35, in inner
+[Thu Jan 17 18:15:26.456592 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762]     response = get_response(request)
+[Thu Jan 17 18:15:26.456608 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/core/handlers/base.py", line 128, in _get_response
+[Thu Jan 17 18:15:26.456625 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762]     response = self.process_exception_by_middleware(e, request)
+[Thu Jan 17 18:15:26.456664 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/core/handlers/base.py", line 126, in _get_response
+[Thu Jan 17 18:15:26.456682 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762]     response = wrapped_callback(request, *callback_args, **callback_kwargs)
+[Thu Jan 17 18:15:26.456697 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+[Thu Jan 17 18:15:26.456713 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762]     return view_func(*args, **kwargs)
+[Thu Jan 17 18:15:26.456728 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/django/views/generic/base.py", line 69, in view
+[Thu Jan 17 18:15:26.456744 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762]     return self.dispatch(request, *args, **kwargs)
+[Thu Jan 17 18:15:26.456759 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/rest_framework/views.py", line 483, in dispatch
+[Thu Jan 17 18:15:26.456775 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762]     response = self.handle_exception(exc)
+[Thu Jan 17 18:15:26.456790 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/rest_framework/views.py", line 443, in handle_exception
+[Thu Jan 17 18:15:26.456806 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762]     self.raise_uncaught_exception(exc)
+[Thu Jan 17 18:15:26.456821 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762]   File "/home/administrator/Programming/virtual/mrbackend/lib/python3.6/site-packages/rest_framework/views.py", line 480, in dispatch
+[Thu Jan 17 18:15:26.456837 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762]     response = handler(request, *args, **kwargs)
+[Thu Jan 17 18:15:26.456852 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762]   File "/home/administrator/Programming/django/meatriteApi/mrAdminOffice/views.py", line 65, in post
+[Thu Jan 17 18:15:26.456867 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762]     messageLevelName = messageLevel['levelName']
+[Thu Jan 17 18:15:26.456887 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762] TypeError: string indices must be integers
+[Thu Jan 17 18:15:26.456914 2019] [wsgi:error] [pid 25723] [remote 192.168.2.31:59762] 
+[Thu Jan 17 18:16:09.655459 2019] [wsgi:error] [pid 25723] [remote 192.168.2.30:59542] The id =  816
+[Thu Jan 17 18:22:16.294418 2019] [wsgi:error] [pid 26258] [remote 192.168.2.30:60131] ***  299
+[Thu Jan 17 18:22:16.297561 2019] [wsgi:error] [pid 26258] [remote 192.168.2.30:60131] ***  1 299
+[Thu Jan 17 18:22:16.297649 2019] [wsgi:error] [pid 26258] [remote 192.168.2.30:60131] *** obj =   {'message': 'test456', 'messageLevel': 1, 'user': 15, 'timeStampID': 299}
+[Thu Jan 17 18:22:16.310446 2019] [wsgi:error] [pid 26258] [remote 192.168.2.30:60131] * * * * * serializer is valid
+[Thu Jan 17 18:28:34.067816 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:60381] The id =  817
+[Thu Jan 17 18:29:14.486589 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:60441] ***  299
+[Thu Jan 17 18:29:14.489439 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:60441] ***  1 299
+[Thu Jan 17 18:29:14.489543 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:60441] *** obj =   {'message': 'toets', 'messageLevel': 1, 'user': 31, 'timeStampID': 299}
+[Thu Jan 17 18:29:14.512941 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:60441] * * * * * serializer is valid
+[Thu Jan 17 18:45:10.667146 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:62413] ***  299
+[Thu Jan 17 18:45:10.678688 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:62413] ***  2 299
+[Thu Jan 17 18:45:10.678815 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:62413] *** obj =   {'message': 'Supra begin met `n nuwe probleem, hy wil nie seel nie en ruk sy lidding af. Ons bel vir Riaan.', 'messageLevel': 2, 'user': 31, 'timeStampID': 299}
+[Thu Jan 17 18:45:10.694909 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:62413] * * * * * serializer is valid
+[Fri Jan 18 01:59:51.383219 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:49250] ***  300
+[Fri Jan 18 01:59:51.383872 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:49250] ***  1 300
+[Fri Jan 18 01:59:51.383891 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:49250] *** obj =   {'message': 'Die onderste computer van die SHOUSE connect nie met die boonstes nie ons werk van die boonste computer af', 'messageLevel': 1, 'user': 32, 'timeStampID': 300}
+[Fri Jan 18 01:59:51.397078 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:49250] * * * * * serializer is valid
+[Fri Jan 18 02:02:59.732415 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:49508] ***  300
+[Fri Jan 18 02:02:59.751200 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:49508] ***  1 300
+[Fri Jan 18 02:02:59.751282 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:49508] *** obj =   {'message': 'Ons sit Supra 2 se ou seel plaat trug en hy laat loop,nuwe mould is in die workshop', 'messageLevel': 1, 'user': 32, 'timeStampID': 300}
+[Fri Jan 18 02:02:59.778891 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:49508] * * * * * serializer is valid
+[Fri Jan 18 02:13:35.878099 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:50392] ***  300
+[Fri Jan 18 02:13:35.878876 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:50392] ***  1 300
+[Fri Jan 18 02:13:35.878899 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:50392] *** obj =   {'message': 'Clipper clip maar hy het nie die hele in die clip nie,ons was hom en smeer bietjie ghries en hy hol weer', 'messageLevel': 1, 'user': 32, 'timeStampID': 300}
+[Fri Jan 18 02:13:35.898278 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:50392] * * * * * serializer is valid
+[Fri Jan 18 05:40:13.265458 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:50931] ***  300
+[Fri Jan 18 05:40:13.271290 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:50931] ***  1 300
+[Fri Jan 18 05:40:13.271345 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:50931] *** obj =   {'message': 'Met skoonmaak tyd wou screwconveyor nie sak nie, breaker het toe net getrip hy werk weer ', 'messageLevel': 1, 'user': 32, 'timeStampID': 300}
+[Fri Jan 18 05:40:13.289832 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:50931] * * * * * serializer is valid
+[Fri Jan 18 05:52:13.089057 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:51918] ***  300
+[Fri Jan 18 05:52:13.095192 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:51918] ***  1 300
+[Fri Jan 18 05:52:13.095263 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:51918] *** obj =   {'message': 'Goose nek conveyor by supra 1 se aircilinder fitting is moeg, RIAAN jou slim brein is daar nodig', 'messageLevel': 1, 'user': 32, 'timeStampID': 300}
+[Fri Jan 18 05:52:13.120713 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:51918] * * * * * serializer is valid
+[Fri Jan 18 06:17:39.889491 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:54003] ***  300
+[Fri Jan 18 06:17:39.895523 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:54003] ***  1 300
+[Fri Jan 18 06:17:39.895583 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:54003] *** obj =   {'message': 'MDM kas teen 6uur = -11', 'messageLevel': 1, 'user': 32, 'timeStampID': 300}
+[Fri Jan 18 06:17:39.927749 2019] [wsgi:error] [pid 26258] [remote 192.168.2.31:54003] * * * * * serializer is valid
+[Fri Jan 18 06:49:24.338095 2019] [wsgi:error] [pid 30292] [remote 192.168.2.31:56823] ***  300
+[Fri Jan 18 06:49:24.343090 2019] [wsgi:error] [pid 30292] [remote 192.168.2.31:56823] ***  1 300
+[Fri Jan 18 06:49:24.343162 2019] [wsgi:error] [pid 30292] [remote 192.168.2.31:56823] *** obj =   {'message': 'BULK BAGS 170 KRATTE', 'messageLevel': 1, 'user': 32, 'timeStampID': 300}
+[Fri Jan 18 06:49:24.365237 2019] [wsgi:error] [pid 30292] [remote 192.168.2.31:56823] * * * * * serializer is valid

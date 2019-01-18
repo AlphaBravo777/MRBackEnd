@@ -58,13 +58,10 @@ class InsertNewReport(generics.ListCreateAPIView):
 
         userInstance = self.request.user
         timestampInstance = request.data.get('timestampID')
-        # wholeDayTimestampInstance = getOrCreateWholeDayTimeStampID(timestampid)
-        print('*** ', timestampInstance)
         message = request.data.get('message')
         messageLevel = request.data.get('messageLevel')
         messageLevelName = messageLevel['levelName']
         messageLevelInstance = MessageLevels.objects.get(levelName=messageLevelName)
-        print('*** ', messageLevelInstance.id, timestampInstance)
         replyid = request.data.get('messageid')
         if replyid:
             replyInstance = DailyReport.objects.get(id=replyid)
@@ -73,7 +70,6 @@ class InsertNewReport(generics.ListCreateAPIView):
             obj = {'message': message, 'messageLevel': messageLevelInstance.id, 'user': userInstance.id, 'timeStampID': timestampInstance}
         serializer = DailyReportSerializer(data=obj)
         if serializer.is_valid():
-            print('* * * * * serializer is valid')
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
