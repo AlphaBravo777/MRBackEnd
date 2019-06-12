@@ -24,13 +24,18 @@ from .models import Productlist, \
                     DaysOfTheWeek, \
                     DeliveryRoutes, \
                     Productgroupnames, \
-                    Shifts
+                    Shifts, \
+                    Productgroups, \
+                    BatchNumbers, \
+                    ProductBatchNumbersJunction,\
+                    MeatriteStock
 
 
 # multiple filter fields? : https://stackoverflow.com/questions/43196733/filter-at-multiple-levels-with-graphql-and-graphene
 # filtering parent and child fields: https://github.com/graphql-python/graphene/issues/537  // Thr problem this guy had looks exactly what I am looking for
 
 class ProductlistType(DjangoObjectType):
+    rowid=graphene.Int()
     class Meta:
         model = Productlist 
         interfaces = (relay.Node, )
@@ -39,7 +44,10 @@ class ProductlistType(DjangoObjectType):
             'proddescription': ['exact', 'icontains', 'istartswith'],
             'productonhold': ['exact'],
             'packaging': ['exact'],
+            'brand': ['exact'],
         }
+    def resolve_rowid(self, context, **kwargs):
+        return self.id
 
 class ProcessedStockAmountsType(DjangoObjectType):
     class Meta:
@@ -146,6 +154,7 @@ class HighRiskPackingListType(DjangoObjectType):
         }
 
 class BatchgroupsType(DjangoObjectType):
+    rowid = graphene.Int()
     class Meta:
         model = Batchgroups
         interfaces = (Node, )
@@ -153,6 +162,8 @@ class BatchgroupsType(DjangoObjectType):
             'batchname': ['exact', 'icontains', 'istartswith'],
             'ranking': ['exact', 'icontains', 'istartswith'],
         }
+    def resolve_rowid(self, context, **kwargs):
+        return self.id
 
 class FactoryAreaType(DjangoObjectType):
     class Meta:
@@ -217,6 +228,18 @@ class ProductGroupNameType(DjangoObjectType):
     def resolve_rowid(self, context, **kwargs):
         return self.id
 
+class ProductGroupsType(DjangoObjectType):
+    rowid = graphene.Int()
+    class Meta:
+        model = Productgroups 
+        interfaces = (Node, )
+        filter_fields = {
+            'groupnameid': ['exact'],
+            'productid': ['exact'],
+        }
+    def resolve_rowid(self, context, **kwargs):
+        return self.id
+
 class ShiftsType(DjangoObjectType):
     rowid=graphene.Int()
     class Meta:
@@ -226,6 +249,44 @@ class ShiftsType(DjangoObjectType):
             'id': ['exact'],
             'shiftName': ['exact', 'icontains', 'istartswith'],
             'shiftSuperVisor': ['exact'],
+        }
+    def resolve_rowid(self, context, **kwargs):
+        return self.id
+
+class BatchNumbersType(DjangoObjectType):
+    rowid=graphene.Int()
+    class Meta:
+        model = BatchNumbers 
+        interfaces = (Node, )
+        filter_fields = {
+            'batchMRid': ['exact', 'icontains', 'istartswith'],
+            'cleared': ['exact'],
+            'batchGroup': ['exact'],
+        }
+    def resolve_rowid(self, context, **kwargs):
+        return self.id
+
+class ProductBatchNumbersJunctionType(DjangoObjectType):
+    rowid=graphene.Int()
+    class Meta:
+        model = ProductBatchNumbersJunction 
+        interfaces = (Node, )
+        filter_fields = {
+            'batchGroup': ['exact'],
+            'batchNumbers': ['exact'],
+        }
+    def resolve_rowid(self, context, **kwargs):
+        return self.id
+
+class MeatriteStockType(DjangoObjectType):
+    rowid=graphene.Int()
+    class Meta:
+        model = MeatriteStock 
+        interfaces = (Node, )
+        filter_fields = {
+            'productid': ['exact'],
+            'batchNumberJunctionid': ['exact'],
+            'amount': ['exact', 'icontains', 'istartswith'],
         }
     def resolve_rowid(self, context, **kwargs):
         return self.id
@@ -268,7 +329,11 @@ class Query(graphene.ObjectType):
     node_daysOfTheWeek = DjangoFilterConnectionField(DaysOfTheWeekType)
     node_deliveryRoutes = DjangoFilterConnectionField(DeliveryRoutesType)
     node_productGroupNames = DjangoFilterConnectionField(ProductGroupNameType)
+    node_productGroups = DjangoFilterConnectionField(ProductGroupsType)
     node_shifts = DjangoFilterConnectionField(ShiftsType)
+    node_batchNumbers = DjangoFilterConnectionField(BatchNumbersType)
+    node_productBatchNumbersJunction = DjangoFilterConnectionField(ProductBatchNumbersJunctionType)
+    node_meatriteStock = DjangoFilterConnectionField(MeatriteStockType)
 
     filter_timeStamp = graphene.Field(TimeStampSQLType, id=graphene.Int())
 

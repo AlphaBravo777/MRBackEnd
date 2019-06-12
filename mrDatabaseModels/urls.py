@@ -10,9 +10,10 @@ from .views import  ProductListDetailsView, \
                     DeleteSpecifiedContainers, \
                     UpdateContainerDelete, \
                     GetStockTimes, \
-                    ProductUpdateAmount
+                    ProductUpdateAmount, \
+                    InsertMeatriteStock
 
-urlpatterns = [
+urlpatterns = [ #ipAddress:port/api/products/
     path('delete/containers/<containers>', DeleteSpecifiedContainers.as_view()),
     path('delete/containerUpdate/<pk>', UpdateContainerDelete.as_view()),
     path('delete/<deleteTime>', DeleteProcessedStockTime.as_view()),
@@ -22,6 +23,7 @@ urlpatterns = [
     path('input/', InsertMultiProcessedStock.as_view()),
     path('getStockTimes/', GetStockTimes.as_view(), name="getStockTimes"),
     path('<str:stockT>/', ProcessedStockTimeView.as_view(), name="stockstime"),
+    path('stock/meatriteStock/insert/', InsertMeatriteStock.as_view()),
     path('', ProductListDetailsView.as_view(), name="details"),
 ]
 

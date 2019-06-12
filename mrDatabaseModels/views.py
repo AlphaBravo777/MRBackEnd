@@ -7,8 +7,18 @@ from .serializers import    ProductListSerializer,\
                             Productcontainers,\
                             ProductContainersSerializer, \
                             GetStockTimesSerializer, \
-                            ProcessedStockAmountsSerializer
-from .models import Productlist, ProcessedStockAmounts, StockTakingTimes, Productcontainernames, HighRiskPackingList
+                            ProcessedStockAmountsSerializer,\
+                            MeatriteStockSerializer
+from .models import Productlist, \
+                    ProcessedStockAmounts, \
+                    StockTakingTimes, \
+                    Productcontainernames, \
+                    HighRiskPackingList, \
+                    MeatriteStock, \
+                    Batchgroups, \
+                    BatchNumbers, \
+                    ProductBatchNumbersJunction
+                        
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -146,32 +156,21 @@ class ProductUpdateAmount(generics.UpdateAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class InsertMeatriteStock(generics.ListCreateAPIView):  
 
-    # def update(self, request, *args, **kwargs):
-    #     instance = self.get_object()
-    #     instance.name = request.data.get("name")
-    #     instance.save()
+    def post(self, request, format='json'):
 
-    #     serializer = self.get_serializer(instance)
-    #     serializer.is_valid(raise_exception=True)
-    #     self.perform_update(serializer)
-
-    #     return Response(serializer.data)
-
-
-    # class InputStockView(APIView):
-
-#     def post(self, request, format='json'):
-#         for key in request.data:
-#             value = request.data[key]
-#             obj = {'name': key, 'amount': value, 'time': '06:00'}
-#             # return Response(obj)
-#         serializer = TestSerializer(data = obj)
-#         if serializer.is_valid():
-#             # serializer.save()
-#             p = ProcessedStockAmounts(amount='33', prodName = Productlist.objects.get(productid = 'SV1'), time = StockTakingTimes.objects.get(times='06:00'))
-#             p.save()
-#             return Response(serializer.data)
-#         else: 
-#             return Response(serializer.errors)
-#         # return Response(resp)
+        print("Here is the  product amounts data: ", request.data)
+        MeatriteStock.objects.all().delete()
+        # Get all the batchnumberJunctionids for all the products that was entered
+        for dat in request.data: 
+            if not dat['batchNumberJunctionid']:
+                batchGroup = Batchgroups.objects.get(id=dat.get('batchGroupid')) 
+                batchNumber = BatchNumbers.objects.get(batchMRid=dat.get('batchNumber')) 
+                batchNumberJunctionid = ProductBatchNumbersJunction.objects.get(Q(batchGroup=batchGroup.id) & Q(batchNumbers=batchNumber.id))
+                dat['batchNumberJunctionid'] = batchNumberJunctionid.id
+        serializer = MeatriteStockSerializer(data=request.data, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -11,7 +11,7 @@ router.register(r'users', views.UserViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
-urlpatterns = [
+urlpatterns = [ #ipAddress:port/api/
     path('api/users/register', views.UserCreate.as_view(), name='account-create'),
     path('api/users/login', views.UserLogin.as_view(), name='account-login'),
     path('products/', include('mrDatabaseModels.urls')),

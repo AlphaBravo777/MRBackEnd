@@ -148,6 +148,7 @@ class Productlist(models.Model):
     packlistgroup = models.ForeignKey(Batchgroups, db_column='packlistgroup', on_delete=models.CASCADE, related_name='packlistgroup', default=20)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='user', on_delete=models.CASCADE, null=False, blank=False, default=23)
     brandImage = models.ForeignKey(Image, db_column='brandImage', on_delete=models.CASCADE, blank=True, null=True, default=19)
+    rankingInGroup = models.IntegerField(db_column='rankingInGroup', blank=True, null=True)
 
     def __str__(self):
         return self.productid
@@ -263,8 +264,57 @@ class HighRiskPackingList(models.Model):
 
     class Meta:
         managed = True
-        db_table = 'tbl_highriskpackingList'
+        db_table = 'tbl_highriskpackinglist'
         ordering = ['productCode']  #Default ordering
+
+class BatchNumbers(models.Model):
+    batchMRid = models.CharField(db_column='batchMRid', max_length=255, blank=False, null=False, unique=True)
+    cleared = models.BooleanField(db_column='cleared', default=True)
+    batchGroup = models.ManyToManyField(Batchgroups, through='ProductBatchNumbersJunction')
+
+    def __str__(self):
+        return str(self.batchMRid)
+
+    class Meta:
+        managed = True
+        db_table = 'tbl_batchnumbers'
+        ordering = ['batchMRid']  #Default ordering
+
+class ProductBatchNumbersJunction(models.Model):
+    batchGroup = models.ForeignKey(Batchgroups, db_column='batchGroup', on_delete=models.CASCADE) 
+    batchNumbers = models.ForeignKey(BatchNumbers, db_column='batchNumbers', on_delete=models.CASCADE) 
+
+    def __str__(self):
+        return str(self.batchGroup) + ' ' + str(self.batchNumbers)
+
+    class Meta:
+        managed = True
+        db_table = 'tbl_productbatchnumbersjunction'
+
+class MeatriteStock(models.Model):
+
+    productid = models.ForeignKey(Productlist, db_column='productid', on_delete=models.CASCADE)
+    batchNumberJunctionid = models.ForeignKey(ProductBatchNumbersJunction, db_column='batchNumberJunctionid', on_delete=models.CASCADE, null=False, blank=False) 
+    amount = models.IntegerField(db_column='amount', blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True, db_column='created', editable=False, null=True, blank=True)
+    lastModified = models.DateTimeField(auto_now=True, db_column='lastModified',  editable=False, null=True, blank=True)
+    userid = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='userid', on_delete=models.CASCADE, null=False, blank=False, default=23)
+
+    def __str__(self):
+        return str(self.productid) + ' ' + str(self.batchNumberJunctionid)
+
+    class Meta:
+        managed = True
+        db_table = 'tbl_meatritestock'
+
+
+# * amount: 5
+# * batchNumberJunctionid: 50
+# batchGroupid: 2
+# batchNumber: "09:4"
+# * productid: 127
+# * userid: 15
+
 
 # mysql -u root -p
 

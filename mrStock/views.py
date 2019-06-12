@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .serializers import CreateOrUpdateProcStockSerializer
+from .serializers import CreateOrUpdateProcStockSerializer, HPPMeatriteStockSerializer
 from mrDatabaseModels.serializers import ProcessedStockAmountsSerializer
+from .models import HPPProductStatus, HPPMeatriteStock
 
 from mrDatabaseModels.models import ProcessedStockAmounts, TimeStamp, Productcontainers, Productlist, Productcontainernames, Factoryarea
 from mrCoreModels.models import SettingsDB
@@ -79,3 +80,25 @@ class GetSelectiveDeleteData(generics.ListAPIView):
         fetchPreviousData = ProcessedStockAmounts.objects.filter(Q(timeStampID=timeRecord.id) & Q(prodContainer__deleteContainerAmount=False))
         return fetchPreviousData
         
+class UpdateHppMeatriteStock(generics.ListCreateAPIView):
+
+    def post(self, request, format='json'):
+
+        productStatusid = request.data[0]['productStatusid']
+        # print("Here is the update MeatriteHppStock: ", request.data[0]['productStatusid'])
+        HPPMeatriteStock.objects.filter(productStatusid=productStatusid).delete()
+
+        serializer = HPPMeatriteStockSerializer(data=request.data, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class DeleteHppMeatriteStock(generics.DestroyAPIView):
+
+    def delete(self, request, *args, **kwargs):
+        productStatusid = self.kwargs['productStatusid']
+        # print("Here is the delete data ", productStatusid)
+        HPPMeatriteStock.objects.filter(productStatusid=productStatusid).delete()
+        return Response(True, status=status.HTTP_201_CREATED)
+

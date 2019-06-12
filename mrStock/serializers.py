@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from mrDatabaseModels.models import ProcessedStockAmounts
+from .models import HPPMeatriteStock, HPPProductStatus
 
 class CreateOrUpdateProcStockSerializer(serializers.ModelSerializer):
 
@@ -10,3 +11,9 @@ class CreateOrUpdateProcStockSerializer(serializers.ModelSerializer):
         model = ProcessedStockAmounts
         fields = '__all__'
         # fields = ('id', 'productid', 'container', 'deleteContainerAmount')
+
+class HPPMeatriteStockSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = HPPMeatriteStock
+        fields = '__all__'        

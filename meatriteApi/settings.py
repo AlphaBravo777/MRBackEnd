@@ -142,10 +142,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'meatritedb',
-        # 'NAME': 'meatriteDB',
         'USER': 'root',
         'PASSWORD': 'password',
-        # 'HOST': '127.0.0.1',
         'HOST': '192.168.2.25',
         'PORT': '3306',
         'OPTIONS': {
@@ -201,6 +199,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # LOGGING = {
 

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import DailyReport, Checklist, AccountName
+from .models import DailyReport, Checklist, AccountName, ReportImages, OrderDetails, OrderProductAmounts
 
 class DailyReportSerializer(serializers.ModelSerializer):
 
@@ -19,3 +19,21 @@ class NewClientAccountSerializer(serializers.ModelSerializer):
         model = AccountName
         fields = '__all__'
         
+class DailyReportImageSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(max_length=None, use_url=True)
+
+    class Meta:
+        model = ReportImages
+        fields = '__all__'
+
+class NewOrderDetailsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = OrderDetails
+        fields = '__all__'
+
+class NewProductAmountsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = OrderProductAmounts
+        fields = '__all__'

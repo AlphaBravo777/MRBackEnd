@@ -1,9 +1,14 @@
 from django.shortcuts import render
 from rest_framework import generics
 from mrCoreModels.serializers import NewTimeStampIDSerializer
-from mrDatabaseModels.models import TimeStamp, StockTakingTimes, ProcessedStockAmounts, Productcontainers, Productlist, Productcontainernames, DaysOfTheWeek, Shifts
-from .models import MessageLevels, DailyReport, ChecklistAreas
-from .serializers import DailyReportSerializer, ChecklistSerializer, NewClientAccountSerializer
+from mrDatabaseModels.models import TimeStamp, StockTakingTimes, ProcessedStockAmounts, Productcontainers, Productlist, Productcontainernames, DaysOfTheWeek, Shifts 
+from .models import MessageLevels, DailyReport, ChecklistAreas, ReportImages
+from .serializers import DailyReportSerializer, \
+    ChecklistSerializer, \
+    NewClientAccountSerializer, \
+    DailyReportImageSerializer, \
+    NewOrderDetailsSerializer, \
+    NewProductAmountsSerializer
 from mrDatabaseModels.serializers import TimeStampSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -107,6 +112,22 @@ class DeleteReportEntry(generics.DestroyAPIView):
         value.delete()
         return Response('true', status=status.HTTP_204_NO_CONTENT) 
 
+class DailyReportImages(generics.ListCreateAPIView):
+
+    # def post(self, request, format='json'):
+    #     print('* * * * * * * * * ', request.POST)
+    #     return Response(None)
+    # parser_classes = (JSONParser, MultiPartParser, FormParser,)
+    queryset = ReportImages.objects.all()
+    serializer_class = DailyReportImageSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
 class InsertNewChecklist(generics.ListCreateAPIView):
 
     def post(self, request, format='json'):
@@ -155,3 +176,29 @@ class UpdateReport(generics.UpdateAPIView):
         instance.save()
 
         return Response(data=True)
+
+class InsertNewOrderDetails(generics.ListCreateAPIView):  
+    # This does all the same as the above code, if the object property names that comes in is the same as the db field names
+
+    def post(self, request, format='json'):
+
+        print("Here is the new order data: ", request.data)
+        serializer = NewOrderDetailsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class InsertOrderProductAmounts(generics.ListCreateAPIView):  
+    # This does all the same as the above code, if the object property names that comes in is the same as the db field names
+
+    def post(self, request, format='json'):
+
+        print("Here is the  product amounts data: ", request.data)
+        serializer = NewProductAmountsSerializer(data=request.data, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(None)

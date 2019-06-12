@@ -16,7 +16,7 @@ class AccountDetails(models.Model):
         db_table = 'tbl_accountdetails'
 
 class AccountName(models.Model):
-    accountID = models.CharField(db_column='accountID', unique=True, max_length=10, blank=False, null=False )
+    accountID = models.CharField(db_column='accountID', unique=False, max_length=10, blank=False, null=False )
     accountName = models.CharField(db_column='accountName', unique=False, max_length=255, blank=False, null=False )
     commonName = models.CharField(db_column='commonName', unique=False, max_length=255, blank=False, null=False )
     parentAccountID = models.ForeignKey('self', on_delete=models.CASCADE, db_column='parentAccountID', blank=True, null=True)
@@ -96,3 +96,51 @@ class Checklist(models.Model):
     class Meta:
         managed = True
         db_table = 'tbl_checklist'
+
+class ReportImages(models.Model):
+    name = models.CharField(max_length=200)
+    image = models.ImageField(upload_to="dailyReport/", null=False, blank=False)
+    report = models.ForeignKey(DailyReport, on_delete=models.CASCADE, db_column='report', blank=False, null=False)
+
+    def __str__(self):
+        return '%s' % (self.name)
+
+    class Meta:
+        managed = True
+        db_table = 'tbl_reportimages'
+
+class OrderDetails(models.Model):
+    accountsid = models.ForeignKey(AccountName, on_delete=models.CASCADE, db_column='accountids', blank=False, null=False)
+    accountMRid = models.CharField(db_column='accountMRid', unique=False, max_length=4, blank=False, null=False )
+    accountID = models.CharField(db_column='accountID', unique=False, max_length=40, blank=False, null=False )
+    commonName = models.CharField(db_column='commonName', unique=False, max_length=255, blank=False, null=False )
+    orderDate = models.DateField(db_column='orderDate') # You can enter this just the way that it is, and it should accept it as a date : 2019-02-222
+    timeStampid = models.ForeignKey('mrDatabaseModels.TimeStamp', db_column='timeStampid', on_delete=models.CASCADE, null=False, blank=False, unique=False)
+    dateCreated = models.DateTimeField(auto_now_add=True, db_column='dateCreated', editable=False, null=True, blank=True)
+    lastModified = models.DateTimeField(db_column='lastModified', auto_now=True, editable=False, null=True, blank=True)
+    userid = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='user', on_delete=models.CASCADE, null=False, blank=False)
+    routeid = models.ForeignKey('mrDatabaseModels.DeliveryRoutes', on_delete=models.CASCADE, db_column='routeid', blank=False, null=False)
+    delivered = models.BooleanField(db_column='delivered', default=False)
+
+    def __str__(self):
+        return '%s %s' % (self.accountMRid, self.commonName)
+
+    class Meta:
+        managed = True
+        db_table = 'tbl_orderdetails'
+
+class OrderProductAmounts(models.Model):
+    orderDetailsid = models.ForeignKey(OrderDetails, on_delete=models.CASCADE, db_column='orderDetailsid', blank=False, null=False)
+    productid = models.ForeignKey('mrDatabaseModels.Productlist', on_delete=models.CASCADE, db_column='productid', blank=False, null=False)
+    productMRid = models.CharField(db_column='productMRid', unique=False, max_length=20, blank=False, null=False )
+    amount = models.IntegerField(db_column='amount')
+    status = models.BooleanField(db_column='status', default=False)
+    lastModified = models.DateTimeField(db_column='lastModified', auto_now=True, editable=False, null=True, blank=True)
+    userid = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='userid', on_delete=models.CASCADE, null=False, blank=False)
+
+    def __str__(self):
+        return '%s %s %s' % (self.orderDetailsid, self.productMRid, self.amount)
+
+    class Meta:
+        managed = True
+        db_table = 'tbl_orderproductamounts'

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Productlist, ProcessedStockAmounts, StockTakingTimes, Productcontainers, Productcontainernames, TimeStamp
+from .models import Productlist, ProcessedStockAmounts, StockTakingTimes, Productcontainers, Productcontainernames, TimeStamp, MeatriteStock
 
 
 # This serializer is made to give a list through of all the products that we have
@@ -96,4 +96,10 @@ class ProcessedStockAmountsSerializer(serializers.ModelSerializer):
 class TimeStampSerializer(serializers.ModelSerializer):
     class Meta:
         model = TimeStamp
+        fields = '__all__'
+
+class MeatriteStockSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = MeatriteStock
         fields = '__all__'
