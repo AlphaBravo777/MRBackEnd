@@ -1,0 +1,5 @@
+# files to ignore
+secret_key.py
+
+# folders to ignore
+
