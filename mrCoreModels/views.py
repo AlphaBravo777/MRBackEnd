@@ -34,9 +34,10 @@ class CreateTimeStampID(generics.ListCreateAPIView):
         week = self.request.data.get('week')
         weekDay = self.request.data.get('weekDay')
         shiftString = self.request.data.get('shift')
+        shortDate = self.request.data.get('shortDate')
         shift = Shifts.objects.get(shiftName=shiftString)
         timeString = self.request.data.get('time')
         time = StockTakingTimes.objects.get(times=timeString)
-        obj = {'year': year, 'week': week, 'weekDay': weekDay, 'shift': shift.id, 'time': time.id}
+        obj = {'year': year, 'week': week, 'weekDay': weekDay, 'shift': shift.id, 'time': time.id, 'shortDate': shortDate}
         success = createTimeStamp(obj)
         return Response(success)
