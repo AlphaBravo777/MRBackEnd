@@ -1,5 +1,6 @@
 # files to ignore
 secret_key.py
 
-# folders to ignore
+# folders to ignore # Start with a "/" and then folder name
+/media
 
