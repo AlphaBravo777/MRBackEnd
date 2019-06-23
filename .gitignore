@@ -3,4 +3,5 @@ secret_key.py
 
 # folders to ignore # Start with a "/" and then folder name
 /media
+/logs
 
