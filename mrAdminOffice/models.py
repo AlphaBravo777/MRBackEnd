@@ -121,6 +121,7 @@ class OrderDetails(models.Model):
     userid = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='user', on_delete=models.CASCADE, null=False, blank=False)
     routeid = models.ForeignKey('mrDatabaseModels.DeliveryRoutes', on_delete=models.CASCADE, db_column='routeid', blank=False, null=False)
     delivered = models.BooleanField(db_column='delivered', default=False)
+    orderNumber = models.CharField(db_column='orderNumber', unique=False, max_length=40, blank=True, null=True )
 
     def __str__(self):
         return '%s %s' % (self.accountMRid, self.commonName)

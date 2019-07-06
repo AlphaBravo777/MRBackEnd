@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics
 from mrCoreModels.serializers import NewTimeStampIDSerializer
 from mrDatabaseModels.models import TimeStamp, StockTakingTimes, ProcessedStockAmounts, Productcontainers, Productlist, Productcontainernames, DaysOfTheWeek, Shifts 
-from .models import MessageLevels, DailyReport, ChecklistAreas, ReportImages
+from .models import MessageLevels, DailyReport, ChecklistAreas, ReportImages, OrderDetails
 from .serializers import DailyReportSerializer, \
     ChecklistSerializer, \
     NewClientAccountSerializer, \
@@ -182,7 +182,18 @@ class InsertNewOrderDetails(generics.ListCreateAPIView):
 
     def post(self, request, format='json'):
 
-        print("Here is the new order data: ", request.data)
+        def orderNumber_exists():
+            print("Here is the new order data: ", request.data.get('orderNumber'))
+            orderNumber = request.data.get('orderNumber')
+            orderInstance = OrderDetails.objects.filter(orderNumber=orderNumber)
+            print('The data from looking up order numbers =', orderInstance)
+            if orderInstance:
+                return True
+ 
+        if orderNumber_exists():
+            return Response({'error': 'Order number exists'}, status=status.HTTP_202_ACCEPTED)
+        else:
+            print('Order number did not exists')
         serializer = NewOrderDetailsSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
