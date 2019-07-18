@@ -23,6 +23,7 @@ class AccountName(models.Model):
     route = models.ForeignKey('mrDatabaseModels.DeliveryRoutes', on_delete=models.CASCADE, db_column='route', blank=False, null=False, default=1)
     productGroup = models.ForeignKey('mrDatabaseModels.Productgroupnames', on_delete=models.CASCADE, db_column='productGroup', blank=False, null=False, default=1)
     accountDetails = models.ManyToManyField(AccountDetails, through='AccountDetailsJunction')
+    accountAccessDBid = models.IntegerField(db_column='accountAccessDBid', null=True)
     
     def __str__(self):
         return '%s %s' % (self.accountID, self.commonName)
@@ -122,6 +123,7 @@ class OrderDetails(models.Model):
     routeid = models.ForeignKey('mrDatabaseModels.DeliveryRoutes', on_delete=models.CASCADE, db_column='routeid', blank=False, null=False)
     delivered = models.BooleanField(db_column='delivered', default=False)
     orderNumber = models.CharField(db_column='orderNumber', unique=False, max_length=40, blank=True, null=True )
+    # accountAccessDBid = models.IntegerField(db_column='accountAccessDBid', unique=True, null=True)
 
     def __str__(self):
         return '%s %s' % (self.accountMRid, self.commonName)
