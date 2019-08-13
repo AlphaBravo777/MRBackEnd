@@ -120,12 +120,15 @@ class ProductBrandsType(DjangoObjectType):
         }  
 
 class PackagingType(DjangoObjectType):
+    rowid=graphene.Int()
     class Meta:
         model = Packaging 
         interfaces = (Node, )
         filter_fields = {                                       
             'packaging_type': ['exact', 'icontains', 'istartswith'],     
-        }  
+        }
+    def resolve_rowid(self, context, **kwargs):
+        return self.id
 
 class ColorCodesType(DjangoObjectType):
     class Meta:
@@ -389,6 +392,13 @@ class Query(graphene.ObjectType):
         if id is not None:
             return TimeStamp.objects.get(pk=id)
         return None
+
+    # def resolve_node_timestamp(self, context, **kwargs):
+    #     rowid = kwargs.get('rowid')
+    #     if rowid is not None:
+    #         print('rowid = ', TimeStamp.objects.get(id=rowid))
+    #         return TimeStamp.objects.get(id=rowid)
+    #     return None
 
     # def resolve_time_stamp_filter(self, context, **kwargs):
     #     id = kwargs.get('id')

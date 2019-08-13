@@ -6,8 +6,10 @@ import mrDatabaseModels.schema as Database
 import mrCoreModels.schema as Core
 import mrAdminOffice.schema as Office
 import mrStock.schema as Stock
+import graphqlMicroservicesEndpoints.microServiceOrderSchema as OrderService
+import graphqlMicroservicesEndpoints.microServiceAccountSchema as AccountService
 
-class Query(Database.Query, Core.Query, Office.Query, Stock.Query, graphene.ObjectType):
+class Query(Database.Query, Core.Query, Office.Query, Stock.Query, AccountService.Query, OrderService.Query, graphene.ObjectType):
     # This class extends all abstract apps level Queries and graphene.ObjectType
     pass
 

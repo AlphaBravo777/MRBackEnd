@@ -28,14 +28,18 @@ class UserType(DjangoObjectType):
         return self.id
     
 class FormsType(DjangoObjectType):
+    rowid = graphene.Int()
     class Meta:
         model = Forms 
         interfaces = (relay.Node, )
         filter_fields = {
             'name': ['exact', 'icontains', 'istartswith'],
         }
+    def resolve_rowid(self, context, **kwargs):
+        return self.id
 
 class FormBuilderType(DjangoObjectType):
+    rowid = graphene.Int()
     class Meta:
         model = FormBuilder 
         interfaces = (relay.Node, )
@@ -48,6 +52,8 @@ class FormBuilderType(DjangoObjectType):
             'placeholder': ['exact', 'icontains', 'istartswith'],
             'validation': ['exact'],
         }
+    def resolve_rowid(self, context, **kwargs):
+        return self.id
 
 class FormBuilderExtrasType(DjangoObjectType):
     class Meta:

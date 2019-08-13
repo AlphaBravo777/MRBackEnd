@@ -14,7 +14,7 @@ from .views import InsertNewReport, \
 urlpatterns = [  # meatrite.com/office/
     path('report/enterNew/', InsertNewReport.as_view()),
     path('report/update/<pk>', UpdateReport.as_view()),
-    path('report/deleteReport/<id>', DeleteReportEntry.as_view()),
+    path('report/deleteReport/<id>', DeleteReportEntry.as_view()), 
     path('report/insertImage/', DailyReportImages.as_view()),
     path('report/downloadImage/', DailyReportImages.as_view()),
     path('timeStamp/wholeDay/', WholeDayTimeStamp.as_view()),

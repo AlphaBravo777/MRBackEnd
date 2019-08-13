@@ -1,6 +1,6 @@
 import os
 import datetime
-from secret_key import SECRET_KEY_FROM_FILE, DATABASE_PASSWORD
+from secret_key import SECRET_KEY_FROM_FILE, DATABASE_PASSWORD, MICROSERVICES_DB_PASSWORD
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'mrDatabaseModels',
     'mrAdminOffice',
     'mrStock',
-    'mrCoreModels'
+    'mrCoreModels',
+    # 'graphqlMicroservicesEndpoints'
 ]
 
 MIDDLEWARE = [
@@ -120,13 +121,6 @@ WSGI_APPLICATION = 'meatriteApi.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#    }
-#}
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -138,8 +132,44 @@ DATABASES = {
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
+    },
+    'orderDetailsMicroService': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mrOrderService',
+        'USER': 'microBackends',
+        'PASSWORD': MICROSERVICES_DB_PASSWORD,
+        'HOST': '192.168.2.25',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        }
+    },
+    'accountDetailsMicroService': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mrAccountService',
+        'USER': 'microBackends',
+        'PASSWORD': MICROSERVICES_DB_PASSWORD,
+        'HOST': '192.168.2.25',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        }
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'meatritedb',
+#         'USER': 'root',
+#         'PASSWORD': DATABASE_PASSWORD,
+#         'HOST': '192.168.2.25',
+#         'PORT': '3306',
+#         'OPTIONS': {
+#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+#         }
+#     }
+# }
 
 
 # Password validation

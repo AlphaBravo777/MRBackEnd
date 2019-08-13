@@ -95,12 +95,7 @@ class DeleteSpecifiedContainers(generics.ListCreateAPIView):
 class UpdateContainerDelete(generics.UpdateAPIView):
 
     queryset = Productcontainers.objects.all()
-    # lookup_field = 'pk'
     serializer_class = ProductContainersSerializer
-
-    # def get_queryset(self):
-    #     id = self.request.data.get("delete")
-    #     return Productcontainers.objects.filter(id=id)
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -111,11 +106,6 @@ class UpdateContainerDelete(generics.UpdateAPIView):
         print(boolValue, instance.deleteContainerAmount)
         instance.deleteContainerAmount = boolValue
         instance.save()
-
-        # serializer = ProductContainersSerializer(data = instance)
-        # serializer.is_valid(raise_exception=True)
-        # self.perform_update(serializer)
-
         return Response(data=None)
 
 class GetStockTimes(generics.ListCreateAPIView):
@@ -125,8 +115,6 @@ class GetStockTimes(generics.ListCreateAPIView):
     serializer_class = GetStockTimesSerializer 
 
 class ProductUpdateAmount(generics.UpdateAPIView):
-    # queryset = ProcessedStockAmounts.objects.all()
-    # serializer_class = ProcessedStockAmountsSerializer
 
     def post(self, request, format='json'):
 
