@@ -10,8 +10,8 @@ import json
 import collections
 import requests
 from rest_framework.response import Response
-from mrDatabaseModels.models import DeliveryRoutes, Productgroupnames, TimeStamp
-from mrDatabaseModels.schema import ProductGroupNameType, DeliveryRoutesType, TimeStampType
+from mrDatabaseModels.models import DeliveryRoutes, Productgroupnames, TimeStamp, Productlist
+from mrDatabaseModels.schema import ProductGroupNameType, DeliveryRoutesType, TimeStampType, ProductlistType
 from .microServiceOrderModels import OrderDetailsMicroService, OrderProductAmountsMicroService
 
 def _json_object_hook(d):
@@ -68,13 +68,15 @@ class OrderDetailsMicroServiceType(DjangoObjectType):
 class OrderProductAmountsMicroServiceType(DjangoObjectType):
     
     rowid = graphene.Int()
+    productid = graphene.Field(ProductlistType)
+
     class Meta:
         model = OrderProductAmountsMicroService 
         interfaces = (relay.Node, )
         filter_fields = {
             'id': ['exact'],
             'orderDetailsid': ['exact'],
-            'productid': ['exact'],
+            # 'productid': ['exact'],
             'productMRid': ['exact', 'icontains', 'istartswith'],
             'amount': ['exact'],
             'status': ['exact'],
@@ -85,6 +87,9 @@ class OrderProductAmountsMicroServiceType(DjangoObjectType):
 
     def resolve_rowid(self, context, **kwargs):
         return self.id
+
+    def resolve_productid(self, context, **kwargs):
+        return Productlist.objects.get(id=self.productid)
 
 class Query(graphene.ObjectType):
 
