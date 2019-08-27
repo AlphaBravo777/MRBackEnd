@@ -308,6 +308,8 @@ class MeatriteStock(models.Model):
         db_table = 'tbl_meatritestock'
 
 
+
+
 # * amount: 5
 # * batchNumberJunctionid: 50
 # batchGroupid: 2

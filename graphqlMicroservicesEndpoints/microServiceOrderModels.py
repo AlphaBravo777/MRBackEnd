@@ -1,8 +1,15 @@
 from django.db import models
-from mrDatabaseModels.models import TimeStamp
-
+from mrDatabaseModels.models import TimeStamp, DeliveryRoutes
 import uuid
 import random
+
+# If a model has a field that is a foreignKey to another model, then the modelSet (graphQL) will only show up in the other model.
+# This means that the model that has the foreignKey will not have a modelSet available in its options
+# The other minimum that you need is to have an objectType defined in the shema for the model, but you do not have to set a node_something(objectType)
+# However, if you do not have a node_something(objectType), then you can not start with the model. It will not be available as your first query option
+# So basically, to get a set for a shema, that shema does not have to know anything about the set
+# You also do not need the model even to be in the database yet. So it does not care if the database is showing the field as a foreignkey (Just 
+# created a model that showed up as a set without even migrating it)
 
 class OrderDetailsMicroService(models.Model):
 
@@ -47,3 +54,17 @@ class OrderProductAmountsMicroService(models.Model):
         app_label = 'orderDetailsMicroService'
         managed = False
         db_table = 'tbl_orderProductAmounts'
+
+class TestForSETS(models.Model):
+    productid = models.PositiveSmallIntegerField(db_column='productid', blank=False, null=False)
+    orderDetailsid = models.ForeignKey(OrderDetailsMicroService, on_delete=models.CASCADE, db_column='orderDetailsid', blank=False, null=False)
+    product = models.ForeignKey(OrderProductAmountsMicroService, on_delete=models.CASCADE, db_column='product', blank=False, null=False)
+    route = models.ForeignKey(DeliveryRoutes, on_delete=models.CASCADE, db_column='route', blank=False, null=False)
+
+    def __str__(self):
+            return '%s' % (self.productid)
+
+    class Meta:
+        app_label = 'productid'
+        managed = False
+        db_table = 'tbl_productid'

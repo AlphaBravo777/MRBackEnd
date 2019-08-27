@@ -7,9 +7,7 @@ from .views import InsertNewReport, \
         InsertNewChecklist, \
         InsertNewClientAccount, \
         UpdateReport, \
-        DailyReportImages, \
-        InsertNewOrderDetails, \
-        InsertOrderProductAmounts
+        DailyReportImages
 
 urlpatterns = [  # meatrite.com/office/
     path('report/enterNew/', InsertNewReport.as_view()),
@@ -20,8 +18,8 @@ urlpatterns = [  # meatrite.com/office/
     path('timeStamp/wholeDay/', WholeDayTimeStamp.as_view()),
     path('checklists/enterNew/', InsertNewChecklist.as_view()),
     path('accounts/enterNew/',  InsertNewClientAccount.as_view()),
-    path('orders/enterDetails/',  InsertNewOrderDetails.as_view()),
-    path('orders/enterProductAmounts/',  InsertOrderProductAmounts.as_view()),
+    # path('orders/enterDetails/',  InsertNewOrderDetails.as_view()),
+    # path('orders/enterProductAmounts/',  InsertOrderProductAmounts.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

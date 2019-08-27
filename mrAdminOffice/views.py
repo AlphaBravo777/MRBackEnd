@@ -2,13 +2,11 @@ from django.shortcuts import render
 from rest_framework import generics
 from mrCoreModels.serializers import NewTimeStampIDSerializer
 from mrDatabaseModels.models import TimeStamp, StockTakingTimes, ProcessedStockAmounts, Productcontainers, Productlist, Productcontainernames, DaysOfTheWeek, Shifts 
-from .models import MessageLevels, DailyReport, ChecklistAreas, ReportImages, OrderDetails
+from .models import MessageLevels, DailyReport, ChecklistAreas, ReportImages
 from .serializers import DailyReportSerializer, \
     ChecklistSerializer, \
     NewClientAccountSerializer, \
-    DailyReportImageSerializer, \
-    NewOrderDetailsSerializer, \
-    NewProductAmountsSerializer
+    DailyReportImageSerializer
 from mrDatabaseModels.serializers import TimeStampSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -177,39 +175,39 @@ class UpdateReport(generics.UpdateAPIView):
 
         return Response(data=True)
 
-class InsertNewOrderDetails(generics.ListCreateAPIView):  
-    # This does all the same as the above code, if the object property names that comes in is the same as the db field names
+# class InsertNewOrderDetails(generics.ListCreateAPIView):  
+#     # This does all the same as the above code, if the object property names that comes in is the same as the db field names
 
-    def post(self, request, format='json'):
+#     def post(self, request, format='json'):
 
-        def orderNumber_exists():
-            print("Here is the new order data: ", request.data.get('orderNumber'))
-            orderNumber = request.data.get('orderNumber')
-            orderInstance = OrderDetails.objects.filter(orderNumber=orderNumber)
-            print('The data from looking up order numbers =', orderInstance)
-            if orderInstance:
-                return True
+#         def orderNumber_exists():
+#             print("Here is the new order data: ", request.data.get('orderNumber'))
+#             orderNumber = request.data.get('orderNumber')
+#             orderInstance = OrderDetails.objects.filter(orderNumber=orderNumber)
+#             print('The data from looking up order numbers =', orderInstance)
+#             if orderInstance:
+#                 return True
  
-        if orderNumber_exists():
-            return Response({'error': 'Order number exists'}, status=status.HTTP_202_ACCEPTED)
-        else:
-            print('Order number did not exists')
-        serializer = NewOrderDetailsSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#         if orderNumber_exists():
+#             return Response({'error': 'Order number exists'}, status=status.HTTP_202_ACCEPTED)
+#         else:
+#             print('Order number did not exists')
+#         serializer = NewOrderDetailsSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class InsertOrderProductAmounts(generics.ListCreateAPIView):  
-    # This does all the same as the above code, if the object property names that comes in is the same as the db field names
+# class InsertOrderProductAmounts(generics.ListCreateAPIView):  
+#     # This does all the same as the above code, if the object property names that comes in is the same as the db field names
 
-    def post(self, request, format='json'):
+#     def post(self, request, format='json'):
 
-        print("Here is the  product amounts data: ", request.data)
-        serializer = NewProductAmountsSerializer(data=request.data, many=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#         print("Here is the  product amounts data: ", request.data)
+#         serializer = NewProductAmountsSerializer(data=request.data, many=True)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response(None)
+#         return Response(None)

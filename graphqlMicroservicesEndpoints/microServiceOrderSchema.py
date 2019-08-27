@@ -5,14 +5,14 @@ from graphene_django.fields import DjangoConnectionField
 from graphene import Node, ObjectType
 from graphene import relay
 from graphene import ID, String, Int, List, Field
-from django.db.models import Q
+from django.db.models import Q, F, Sum, FloatField
 import json
 import collections
 import requests
 from rest_framework.response import Response
 from mrDatabaseModels.models import DeliveryRoutes, Productgroupnames, TimeStamp, Productlist
 from mrDatabaseModels.schema import ProductGroupNameType, DeliveryRoutesType, TimeStampType, ProductlistType
-from .microServiceOrderModels import OrderDetailsMicroService, OrderProductAmountsMicroService
+from .microServiceOrderModels import OrderDetailsMicroService, OrderProductAmountsMicroService, TestForSETS
 
 def _json_object_hook(d):
     return collections.namedtuple('X', d.keys())(*d.values())
@@ -38,6 +38,9 @@ For returning multiple records: (Same as the above, but you field name must be a
 class OrderDetailsMicroServiceType(DjangoObjectType):
     # routeid = graphene.List(DeliveryRoutesType)
     rowid = graphene.Int()
+    orderTotalAmount = graphene.Int()
+    routeNode = graphene.Field(DeliveryRoutesType)
+
     class Meta:
         model = OrderDetailsMicroService 
         interfaces = (relay.Node, )
@@ -59,16 +62,23 @@ class OrderDetailsMicroServiceType(DjangoObjectType):
     # def resolve_timeStampid(self, context, **kwargs):
     #     return TimeStamp.objects.get(id=self.timeStampid)
 
-    # def resolve_routeid(self, context, **kwargs):
-    #     return DeliveryRoutes.objects.get(id=self.routeid)
+    def resolve_routeNode(self, context, **kwargs):
+        return DeliveryRoutes.objects.get(id=self.routeid)
 
     def resolve_rowid(self, context, **kwargs):
         return self.id
+
+    def resolve_orderTotalAmount(self, context, **kwargs):
+        total = OrderProductAmountsMicroService.objects.using('orderDetailsMicroService') \
+        .filter(orderDetailsid=self.id) \
+        .aggregate(totalSum=Sum(F('amount')*F('packageWeight'), output_field=FloatField()))
+        return total['totalSum']
 
 class OrderProductAmountsMicroServiceType(DjangoObjectType):
     
     rowid = graphene.Int()
     productid = graphene.Field(ProductlistType)
+
 
     class Meta:
         model = OrderProductAmountsMicroService 
@@ -91,14 +101,37 @@ class OrderProductAmountsMicroServiceType(DjangoObjectType):
     def resolve_productid(self, context, **kwargs):
         return Productlist.objects.get(id=self.productid)
 
+class TestForSETSMicroServiceType(DjangoObjectType):
+        
+    rowid = graphene.Int()
+
+    class Meta:
+        model = TestForSETS 
+        interfaces = (relay.Node, )
+        filter_fields = {
+            'productid': ['exact', 'icontains', 'istartswith'],
+            'orderDetailsid': ['exact'],
+            'product': ['exact'],
+            'route': ['exact'],
+        }
+
+    def resolve_rowid(self, context, **kwargs):
+        return self.id
+
 class Query(graphene.ObjectType):
 
     # list_micro_account_names_search = graphene.List(MicroAccountNameType, id=Int(), accountMRid=String(), commonName=String())
 
     node_order_details_micro_service = DjangoFilterConnectionField(OrderDetailsMicroServiceType)
+    node_order_products_amounts_micro_service = DjangoFilterConnectionField(OrderProductAmountsMicroServiceType)
+    # node_test_for_sets_micro_service = DjangoFilterConnectionField(TestForSETSMicroServiceType)
 
     def resolve_node_order_details_micro_service(self, context, *args, **kwargs):
         return OrderDetailsMicroService.objects.using('orderDetailsMicroService').all()
+
+    def resolve_node_order_products_amounts_micro_service(self, context, *args, **kwargs):
+        return OrderDetailsMicroService.objects.using('OrderProductAmountsMicroService').all()
+
 
 
 

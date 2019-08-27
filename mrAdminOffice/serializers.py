@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import DailyReport, Checklist, AccountName, ReportImages, OrderDetails, OrderProductAmounts
+from .models import DailyReport, Checklist, AccountName, ReportImages
 
 class DailyReportSerializer(serializers.ModelSerializer):
 
@@ -26,14 +26,14 @@ class DailyReportImageSerializer(serializers.ModelSerializer):
         model = ReportImages
         fields = '__all__'
 
-class NewOrderDetailsSerializer(serializers.ModelSerializer):
+# class NewOrderDetailsSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = OrderDetails
-        fields = '__all__'
+#     class Meta:
+#         model = OrderDetails
+#         fields = '__all__'
 
-class NewProductAmountsSerializer(serializers.ModelSerializer):
+# class NewProductAmountsSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = OrderProductAmounts
-        fields = '__all__'
+#     class Meta:
+#         model = OrderProductAmounts
+#         fields = '__all__'

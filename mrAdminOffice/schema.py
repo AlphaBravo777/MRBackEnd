@@ -19,7 +19,7 @@ from api_urls import ACCOUNT_SERVICE_URL, \
     GET_SINGLE_ACCOUNT_MRID
 # from mrDatabaseModels.schema import DeliveryRoutesType
 
-from .models import MessageLevels, DailyReport, ChecklistAreas, Checklist, AccountName, ReportImages, OrderDetails, OrderProductAmounts
+from .models import MessageLevels, DailyReport, ChecklistAreas, Checklist, AccountName, ReportImages
 
 def _json_object_hook(d):
     return collections.namedtuple('X', d.keys())(*d.values())
@@ -221,38 +221,38 @@ class ReportImagesType(DjangoObjectType):
     def resolve_rowid(self, context, **kwargs):
         return self.id
 
-class OrderDetailsType(DjangoObjectType):
-    rowid = graphene.Int()
-    class Meta:
-        model = OrderDetails
-        interfaces = (relay.Node, )
-        filter_fields = {
-            'accountsid': ['exact'],
-            'accountMRid': ['exact', 'icontains', 'istartswith'],
-            'accountID': ['exact', 'icontains', 'istartswith'],
-            'commonName': ['exact', 'icontains', 'istartswith'],
-            'orderDate': ['exact'],
-            'timeStampid': ['exact'],
-            'routeid': ['exact'],
-            'delivered': ['exact'],
-        }
-    def resolve_rowid(self, context, **kwargs):
-        return self.id
+# class OrderDetailsType(DjangoObjectType):
+#     rowid = graphene.Int()
+#     class Meta:
+#         model = OrderDetails
+#         interfaces = (relay.Node, )
+#         filter_fields = {
+#             'accountsid': ['exact'],
+#             'accountMRid': ['exact', 'icontains', 'istartswith'],
+#             'accountID': ['exact', 'icontains', 'istartswith'],
+#             'commonName': ['exact', 'icontains', 'istartswith'],
+#             'orderDate': ['exact'],
+#             'timeStampid': ['exact'],
+#             'routeid': ['exact'],
+#             'delivered': ['exact'],
+#         }
+#     def resolve_rowid(self, context, **kwargs):
+#         return self.id
 
-class OrderProductAmountsType(DjangoObjectType):
-    rowid = graphene.Int()
-    class Meta:
-        model = OrderProductAmounts
-        interfaces = (relay.Node, )
-        filter_fields = {
-            'orderDetailsid': ['exact'],
-            'productid': ['exact'],
-            'productMRid': ['exact', 'icontains', 'istartswith'],
-            'amount': ['exact', 'icontains', 'istartswith'],
-            'status': ['exact'],
-        }
-    def resolve_rowid(self, context, **kwargs):
-        return self.id
+# class OrderProductAmountsType(DjangoObjectType):
+#     rowid = graphene.Int()
+#     class Meta:
+#         model = OrderProductAmounts
+#         interfaces = (relay.Node, )
+#         filter_fields = {
+#             'orderDetailsid': ['exact'],
+#             'productid': ['exact'],
+#             'productMRid': ['exact', 'icontains', 'istartswith'],
+#             'amount': ['exact', 'icontains', 'istartswith'],
+#             'status': ['exact'],
+#         }
+#     def resolve_rowid(self, context, **kwargs):
+#         return self.id
 
 class Query(graphene.ObjectType):
 
@@ -271,8 +271,8 @@ class Query(graphene.ObjectType):
     node_checklist = DjangoFilterConnectionField(ChecklistType)
     node_accountNames = DjangoFilterConnectionField(AccountNameType)
     node_reportImages = DjangoFilterConnectionField(ReportImagesType)
-    node_orderDetails = DjangoFilterConnectionField(OrderDetailsType)
-    node_orderProductAmounts = DjangoFilterConnectionField(OrderProductAmountsType)
+    # node_orderDetails = DjangoFilterConnectionField(OrderDetailsType)
+    # node_orderProductAmounts = DjangoFilterConnectionField(OrderProductAmountsType)
 
 
     def resolve_list_messageLevels(self, context, **kwargs):

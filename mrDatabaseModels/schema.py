@@ -30,7 +30,6 @@ from .models import Productlist, \
                     ProductBatchNumbersJunction,\
                     MeatriteStock
 
-
 # multiple filter fields? : https://stackoverflow.com/questions/43196733/filter-at-multiple-levels-with-graphql-and-graphene
 # filtering parent and child fields: https://github.com/graphql-python/graphene/issues/537  // Thr problem this guy had looks exactly what I am looking for
 
@@ -337,10 +336,8 @@ class Query(graphene.ObjectType):
     node_batchNumbers = DjangoFilterConnectionField(BatchNumbersType)
     node_productBatchNumbersJunction = DjangoFilterConnectionField(ProductBatchNumbersJunctionType)
     node_meatriteStock = DjangoFilterConnectionField(MeatriteStockType)
-
+    
     filter_timeStamp = graphene.Field(TimeStampSQLType, id=graphene.Int())
-
-
 
     def resolve_list_productlists(self, context, **kwargs):
         return Productlist.objects.all()
