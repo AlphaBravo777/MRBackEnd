@@ -66,6 +66,7 @@ class TimeStamp(models.Model):
 
 class Packaging(models.Model):
     packaging_type = models.CharField(max_length=255, blank=True, null=True)
+    packaging_weight = models.FloatField(db_column='packaging_weight', blank=True, null=True)
     
     def __str__(self):
         return self.packaging_type
@@ -149,6 +150,7 @@ class Productlist(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, db_column='user', on_delete=models.CASCADE, null=False, blank=False, default=23)
     brandImage = models.ForeignKey(Image, db_column='brandImage', on_delete=models.CASCADE, blank=True, null=True, default=19)
     rankingInGroup = models.IntegerField(db_column='rankingInGroup', blank=True, null=True)
+    packagingShipping = models.ForeignKey(Packaging, db_column='packagingShipping', related_name="package_packagingShipping", on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.productid
