@@ -27,8 +27,8 @@ class CreateTimeStampID(generics.ListCreateAPIView):
             serializer = NewTimeStampIDSerializer(data=obj)
             if serializer.is_valid():
                 serializer.save()
-                return True
-            return False
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         year = self.request.data.get('year')
         week = self.request.data.get('week')
@@ -40,4 +40,8 @@ class CreateTimeStampID(generics.ListCreateAPIView):
         time = StockTakingTimes.objects.get(times=timeString)
         obj = {'year': year, 'week': week, 'weekDay': weekDay, 'shift': shift.id, 'time': time.id, 'shortDate': shortDate}
         success = createTimeStamp(obj)
-        return Response(success)
+        return success
+
+
+        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

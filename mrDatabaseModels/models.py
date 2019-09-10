@@ -151,6 +151,8 @@ class Productlist(models.Model):
     brandImage = models.ForeignKey(Image, db_column='brandImage', on_delete=models.CASCADE, blank=True, null=True, default=19)
     rankingInGroup = models.IntegerField(db_column='rankingInGroup', blank=True, null=True)
     packagingShipping = models.ForeignKey(Packaging, db_column='packagingShipping', related_name="package_packagingShipping", on_delete=models.CASCADE, blank=True, null=True)
+    unitsPerMaxShippingWeight = models.IntegerField(db_column='unitsPerMaxShippingWeight', blank=True, null=True, \
+        help_text='This is the normal amount of units that can fit into a shipping container, like there are max 10 units SG2 in a red crate')
 
     def __str__(self):
         return self.productid
