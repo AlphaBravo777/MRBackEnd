@@ -4,7 +4,7 @@ from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.fields import DjangoConnectionField
 from graphene import Node, ObjectType
 from graphene import relay
-from graphene import ID, String, Int, List, Field
+from graphene import ID, String, Int, List, Field, Float
 from django.db.models import Q, F, Sum, FloatField
 import json
 import collections
@@ -38,7 +38,7 @@ For returning multiple records: (Same as the above, but you field name must be a
 class OrderDetailsMicroServiceType(DjangoObjectType):
     # routeid = graphene.List(DeliveryRoutesType)
     rowid = graphene.Int()
-    orderTotalAmount = graphene.Int()
+    orderTotalAmount = graphene.Float()
     routeNode = graphene.Field(DeliveryRoutesType)
 
     class Meta:
@@ -72,6 +72,7 @@ class OrderDetailsMicroServiceType(DjangoObjectType):
         total = OrderProductAmountsMicroService.objects.using('orderDetailsMicroService') \
         .filter(orderDetailsid=self.id) \
         .aggregate(totalSum=Sum(F('amount')*F('packageWeight'), output_field=FloatField()))
+        print('The total for the route = ', total['totalSum'])
         return total['totalSum']
 
 class OrderProductAmountsMicroServiceType(DjangoObjectType):
