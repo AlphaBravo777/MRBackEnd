@@ -72,7 +72,6 @@ class OrderDetailsMicroServiceType(DjangoObjectType):
         total = OrderProductAmountsMicroService.objects.using('orderDetailsMicroService') \
         .filter(orderDetailsid=self.id) \
         .aggregate(totalSum=Sum(F('amount')*F('packageWeight'), output_field=FloatField()))
-        print('The total for the route = ', total['totalSum'])
         return total['totalSum']
 
 class OrderProductAmountsMicroServiceType(DjangoObjectType):
