@@ -42,6 +42,25 @@ class CreateTimeStampID(generics.ListCreateAPIView):
         success = createTimeStamp(obj)
         return success
 
+class GetTimeStampDetails(generics.ListCreateAPIView):
 
-        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
-        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer_class = NewTimeStampIDSerializer
+    def get_queryset(self, *args, **kwargs):
+        id = self.kwargs['pk']
+        returnValue = TimeStamp.objects.filter(id=id)
+        return returnValue
+
+class GetAllTimeStampsForWeekNo(generics.ListCreateAPIView):
+
+    serializer_class = NewTimeStampIDSerializer
+    def get_queryset(self, *args, **kwargs):
+        id = self.kwargs['pk']
+        returnValue = TimeStamp.objects.get(id=id)
+        weekNo = returnValue.week
+        # weekNo = 38
+        shift = returnValue.shift
+        time = returnValue.time
+        weekValues = TimeStamp.objects.filter(Q(week=weekNo, shift=shift.id, time=time.id) | \
+        Q(week=weekNo+1, shift=shift.id, time=time.id, weekDay=1)).exclude(week=weekNo, weekDay=1)
+        print(' - - - ', weekValues)
+        return weekValues
