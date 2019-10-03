@@ -12,7 +12,7 @@ import requests
 from rest_framework.response import Response
 from mrDatabaseModels.models import DeliveryRoutes, Productgroupnames, TimeStamp, Productlist
 from mrDatabaseModels.schema import ProductGroupNameType, DeliveryRoutesType, TimeStampType, ProductlistType
-from .microServiceOrderModels import OrderDetailsMicroService, OrderProductAmountsMicroService, TestForSETS
+from .microServiceOrderModels import OrderDetailsMicroService, OrderProductAmountsMicroService, WeeklyOrdersCacheMicroService
 
 def _json_object_hook(d):
     return collections.namedtuple('X', d.keys())(*d.values())
@@ -101,30 +101,35 @@ class OrderProductAmountsMicroServiceType(DjangoObjectType):
     def resolve_productid(self, context, **kwargs):
         return Productlist.objects.get(id=self.productid)
 
-class TestForSETSMicroServiceType(DjangoObjectType):
-        
+class WeeklyOrdersCacheType(DjangoObjectType):
+    
     rowid = graphene.Int()
+    productid = graphene.Field(ProductlistType)
+    timeStampid = graphene.Field(TimeStampType)
 
     class Meta:
-        model = TestForSETS 
+        model = WeeklyOrdersCacheMicroService 
         interfaces = (relay.Node, )
         filter_fields = {
-            'productid': ['exact', 'icontains', 'istartswith'],
-            'orderDetailsid': ['exact'],
-            'product': ['exact'],
-            'route': ['exact'],
+            'id': ['exact'],
+            # 'timeStampid': ['exact'],
+            # 'productid': ['exact'],
+            'productTotalAmount': ['exact'],
+            'weekNum': ['exact'],
         }
 
     def resolve_rowid(self, context, **kwargs):
         return self.id
+    def resolve_productid(self, context, **kwargs):
+        return Productlist.objects.get(id=self.productid)
+    def resolve_timeStampid(self, context, **kwargs):
+        return TimeStamp.objects.get(id=self.timeStampid)
 
 class Query(graphene.ObjectType):
 
-    # list_micro_account_names_search = graphene.List(MicroAccountNameType, id=Int(), accountMRid=String(), commonName=String())
-
     node_order_details_micro_service = DjangoFilterConnectionField(OrderDetailsMicroServiceType)
     node_order_products_amounts_micro_service = DjangoFilterConnectionField(OrderProductAmountsMicroServiceType)
-    # node_test_for_sets_micro_service = DjangoFilterConnectionField(TestForSETSMicroServiceType)
+    node_weekly_orders_micro_service = DjangoFilterConnectionField(WeeklyOrdersCacheType)
 
     def resolve_node_order_details_micro_service(self, context, *args, **kwargs):
         return OrderDetailsMicroService.objects.using('orderDetailsMicroService').all()
@@ -132,6 +137,8 @@ class Query(graphene.ObjectType):
     def resolve_node_order_products_amounts_micro_service(self, context, *args, **kwargs):
         return OrderDetailsMicroService.objects.using('OrderProductAmountsMicroService').all()
 
+    def resolve_node_weekly_orders_micro_service(self, context, *args, **kwargs):
+        return WeeklyOrdersCacheMicroService.objects.using('orderDetailsMicroService').all()
 
 
 

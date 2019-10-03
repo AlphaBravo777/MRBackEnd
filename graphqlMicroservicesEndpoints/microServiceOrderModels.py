@@ -55,16 +55,16 @@ class OrderProductAmountsMicroService(models.Model):
         managed = False
         db_table = 'tbl_orderProductAmounts'
 
-class TestForSETS(models.Model):
-    productid = models.PositiveSmallIntegerField(db_column='productid', blank=False, null=False)
-    orderDetailsid = models.ForeignKey(OrderDetailsMicroService, on_delete=models.CASCADE, db_column='orderDetailsid', blank=False, null=False)
-    product = models.ForeignKey(OrderProductAmountsMicroService, on_delete=models.CASCADE, db_column='product', blank=False, null=False)
-    route = models.ForeignKey(DeliveryRoutes, on_delete=models.CASCADE, db_column='route', blank=False, null=False)
+class WeeklyOrdersCacheMicroService(models.Model):
+    timeStampid = models.IntegerField(db_column='timeStampid', db_index=True)
+    productid = models.IntegerField(db_column='productid')
+    productTotalAmount = models.IntegerField(db_column='productTotalAmount')
+    weekNum = models.IntegerField(db_column='weekNum', db_index=True)
 
     def __str__(self):
-            return '%s' % (self.productid)
+            return '%s %s' % (self.timeStampid, self.productid)
 
     class Meta:
-        app_label = 'productid'
+        app_label = 'orderDetailsMicroService'
         managed = False
-        db_table = 'tbl_productid'
+        db_table = 'tbl_weeklyOrdersCache'
