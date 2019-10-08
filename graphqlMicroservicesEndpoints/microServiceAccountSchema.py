@@ -84,11 +84,20 @@ class Query(graphene.ObjectType):
     node_account_name_micro_service = DjangoFilterConnectionField(AccountNameMicroServiceType)
     node_franchise_micro_service = DjangoFilterConnectionField(FranchiseMicroServiceType)
 
+    get_account_micro_service = graphene.Field(AccountNameMicroServiceType, id=graphene.Int())
+
     def resolve_node_account_name_micro_service(self, context, *args, **kwargs):
         return AccountName.objects.using('accountDetailsMicroService').all()
 
     def resolve_node_franchise_micro_service(self, context, *args, **kwargs):
         return Franchise.objects.using('accountDetailsMicroService').all()
+
+    def resolve_get_account_micro_service(self, context, **kwargs):
+        id = kwargs.get('id')
+        if id is not None:
+            return AccountName.objects.using('accountDetailsMicroService').get(pk=id)
+        return None
+
 
 
 
