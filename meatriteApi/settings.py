@@ -94,6 +94,8 @@ CORS_ALLOW_HEADERS = (
     'origin',
     'authorization',
     'cache-control',
+    'content-encoding',
+    'accept-encoding'
     )
 
 
