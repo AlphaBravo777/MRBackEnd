@@ -1,6 +1,6 @@
 import os
 import datetime
-from secret_key import SECRET_KEY_FROM_FILE, DATABASE_PASSWORD, MICROSERVICES_DB_PASSWORD
+from secret_key import SECRET_KEY_FROM_FILE, DATABASE_PASSWORD, MICROSERVICES_DB_PASSWORD, PRODUCTMICROSERVICE_DB_PASSWORD
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -156,26 +156,19 @@ DATABASES = {
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
+    },
+    'productMicroService': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'productsMSdb',
+        'USER': 'productMSUser',
+        'PASSWORD': PRODUCTMICROSERVICE_DB_PASSWORD,
+        'HOST': '192.168.2.27',
+        'PORT': 3306,
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        }
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'meatritedb',
-#         'USER': 'root',
-#         'PASSWORD': DATABASE_PASSWORD,
-#         'HOST': '192.168.2.25',
-#         'PORT': '3306',
-#         'OPTIONS': {
-#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-#         }
-#     }
-# }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
