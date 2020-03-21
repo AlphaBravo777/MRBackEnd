@@ -56,11 +56,12 @@ class GetAllTimeStampsForWeekNo(generics.ListCreateAPIView):
     def get_queryset(self, *args, **kwargs):
         id = self.kwargs['pk']
         returnValue = TimeStamp.objects.get(id=id)
+        year = returnValue.year
         weekNo = returnValue.week
         # weekNo = 38
         shift = returnValue.shift
         time = returnValue.time
-        weekValues = TimeStamp.objects.filter(Q(week=weekNo, shift=shift.id, time=time.id) | \
-        Q(week=weekNo+1, shift=shift.id, time=time.id, weekDay=1)).exclude(week=weekNo, weekDay=1)
+        weekValues = TimeStamp.objects.filter(Q(week=weekNo, shift=shift.id, time=time.id, year=year) | \
+        Q(week=weekNo+1, shift=shift.id, time=time.id, weekDay=1, year=year)).exclude(week=weekNo, weekDay=1)
         print(' - - - ', weekValues)
         return weekValues
