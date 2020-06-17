@@ -130,12 +130,15 @@ class PackagingType(DjangoObjectType):
         return self.id
 
 class ColorCodesType(DjangoObjectType):
+    rowid=graphene.Int()
     class Meta:
         model = ColorCodes 
         interfaces = (Node, )
         filter_fields = {                                       
             'colorCode': ['exact', 'icontains', 'istartswith'],     
-        }  
+        }
+    def resolve_rowid(self, context, **kwargs):
+        return self.id
         
 class MeasuringUnitsType(DjangoObjectType):
     class Meta:

@@ -14,6 +14,7 @@ class SettingsDB(models.Model):
         managed = True
         db_table = 'tbl_settingsdb'
 
+# Main name of every form, this gets used as a foreign key for all the controls it contains
 class Forms(models.Model):
     name = models.CharField(db_column='name', max_length=255, blank=False, null=False)
 
@@ -24,6 +25,7 @@ class Forms(models.Model):
         managed = True
         db_table = 'tbl_forms'
 
+# This is the actual control that you create with all of its information
 class FormBuilder(models.Model):
     form = models.ForeignKey(Forms, on_delete=models.CASCADE, db_column='form', blank=False, null=False, default=1)
     type = models.CharField(db_column='type', max_length=50, blank=False, null=False)
@@ -42,8 +44,10 @@ class FormBuilder(models.Model):
         managed = True
         db_table = 'tbl_formbuilder'
 
+# This may be extra information that you want, like all the validation requirements added like this for in case you have more than one per control
 class FormBuilderExtras(models.Model):
     item = models.CharField(db_column='item', max_length=50, blank=False, null=False)
+    # Name can be added here as well
     value = models.IntegerField(db_column='value', blank=True, null=True)
     number = models.IntegerField(db_column='number', blank=True, null=True)
     
