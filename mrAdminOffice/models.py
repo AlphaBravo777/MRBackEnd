@@ -22,7 +22,7 @@ class AccountName(models.Model):
     parentAccountID = models.ForeignKey('self', on_delete=models.CASCADE, db_column='parentAccountID', blank=True, null=True)
     route = models.ForeignKey('mrDatabaseModels.DeliveryRoutes', on_delete=models.CASCADE, db_column='route', blank=False, null=False, default=1)
     productGroup = models.ForeignKey('mrDatabaseModels.Productgroupnames', on_delete=models.CASCADE, db_column='productGroup', blank=False, null=False, default=1)
-    accountDetails = models.ManyToManyField(AccountDetails, through='AccountDetailsJunction')
+    accountDetails = models.ManyToManyField(AccountDetails, through='AccountDetailsJunction') # This field does not show up in the table
     accountAccessDBid = models.IntegerField(db_column='accountAccessDBid', null=True)
     
     def __str__(self):
